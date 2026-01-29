@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第5章 指针 | C语言程序设计</title>
+    <meta name="description" content="深入理解C语言的核心特性——指针，掌握指针的概念、运算和应用">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="/pages/c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="/pages/main-function.html">main函数详解</a></li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a></li>
+                        <li><a href="/pages/chapter5.html" class="active">第5章 指针</a></li>
+                        <li><a href="/pages/chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="/pages/cases.html">经典案例与解析</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>第5章 指针</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">核心章节 重点掌握 指针是C语言最强大也是最难掌握的特性</span>
+                </div>
+
+                <section class="section">
+                    <h2>本章概述</h2>
+                    <p><strong>指针</strong>是C语言最强大的特性之一，也是C语言的灵魂。掌握指针是成为优秀C程序员的必经之路。</p>
+
+                    <p>本章主要内容：</p>
+                    <ul>
+                        <li>指针的基本概念</li>
+                        <li>指针的运算</li>
+                        <li>指针与数组</li>
+                        <li>指针与函数</li>
+                        <li>指针数组与多级指针</li>
+                        <li>动态内存分配</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>什么是指针？</h2>
+
+                    <h3>基本概念</h3>
+                    <p><strong>指针</strong>是一个变量，其值为另一个变量的地址。通过指针，我们可以间接访问和操作内存中的数据。</p>
+
+                    <pre><code class="language-c">int a = 10;      // 整型变量
+int *p;         // 指针变量
+p = &a;         // p指向a的地址</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 关键符号</h4>
+                        <ul>
+                            <li><code>&amp;</code>：取地址运算符，获取变量的地址</li>
+                            <li><code>*</code>：指针运算符，访问指针指向的变量</li>
+                        </ul>
+                    </div>
+
+                    <h3>指针的定义和使用</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10;
+    int *p;          // 定义指针变量
+
+    p = &a;          // p指向a
+
+    printf("a的值：%d\n", a);           // 输出：10
+    printf("a的地址：%p\n", &a);        // 输出：a的地址
+    printf("p的值：%p\n", p);           // 输出：a的地址
+    printf("*p的值：%d\n", *p);         // 输出：10
+
+    *p = 20;         // 通过指针修改a的值
+    printf("修改后a的值：%d\n", a);     // 输出：20
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>指针的运算</h2>
+
+                    <h3>指针的算术运算</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[5] = {10, 20, 30, 40, 50};
+    int *p = arr;    // 指向数组首元素
+
+    printf("%d\n", *p);       // 输出：10
+    printf("%d\n", *(p + 1)); // 输出：20
+    printf("%d\n", *(p + 2)); // 输出：30
+
+    p++;                      // 指针后移
+    printf("%d\n", *p);       // 输出：20
+
+    return 0;
+}</code></pre>
+
+                    <h3>指针的关系运算</h3>
+                    <pre><code class="language-c">int arr[5];
+int *p1 = &arr[0];
+int *p2 = &arr[4];
+
+if (p1 < p2) {
+    printf("p1在p2前面\n");
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>⚠️ 注意</h4>
+                        <ul>
+                            <li>指针运算只在数组中有意义</li>
+                            <li>不要对未初始化的指针进行运算</li>
+                            <li>注意指针越界问题</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>指针与数组</h2>
+
+                    <h3>数组名与指针</h3>
+                    <p>数组名在很多情况下会退化为指向首元素的指针：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[5] = {10, 20, 30, 40, 50};
+    int *p = arr;    // 等价于 int *p = &arr[0];
+
+    // 使用指针遍历数组
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", *(p + i));    // 等价于 arr[i]
+    }
+
+    // 数组名是指针常量，不能修改
+    // arr++;  // 错误！
+    p++;          // 正确
+
+    return 0;
+}</code></pre>
+
+                    <h3>指针遍历数组</h3>
+                    <pre><code class="language-c">// 方法1：使用数组下标
+for (int i = 0; i < 5; i++) {
+    printf("%d ", arr[i]);
+}
+
+// 方法2：使用指针算术
+for (int *p = arr; p < arr + 5; p++) {
+    printf("%d ", *p);
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>指针与函数</h2>
+
+                    <h3>指针作为函数参数</h3>
+                    <p>指针参数可以实现"传引用"的效果：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+// 值传递：不会改变原变量
+void swapByValue(int a, int b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+// 指针传递：会改变原变量
+void swapByPointer(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int x = 10, y = 20;
+
+    swapByValue(x, y);
+    printf("值传递后：x=%d, y=%d\n", x, y);  // 输出：x=10, y=20
+
+    swapByPointer(&x, &y);
+    printf("指针传递后：x=%d, y=%d\n", x, y); // 输出：x=20, y=10
+
+    return 0;
+}</code></pre>
+
+                    <h3>函数返回指针</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int* max(int *a, int *b) {
+    return (*a > *b) ? a : b;
+}
+
+int main() {
+    int x = 10, y = 20;
+    int *p = max(&x, &y);
+
+    printf("最大值：%d\n", *p);  // 输出：20
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>⚠️ 注意</h4>
+                        <p>不要返回指向局部变量的指针，因为函数返回后局部变量会被销毁。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>指针数组与数组指针</h2>
+
+                    <h3>指针数组</h3>
+                    <p>指针数组是数组的每个元素都是指针：</p>
+                    <pre><code class="language-c">int *arr[5];    // 5个int指针的数组</code></pre>
+
+                    <h3>数组指针</h3>
+                    <p>数组指针是指向整个数组的指针：</p>
+                    <pre><code class="language-c">int (*p)[5];    // 指向包含5个int的数组的指针</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+    int (*p)[4] = arr;  // 数组指针
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%d ", *(*(p + i) + j));
+        }
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>多级指针</h2>
+                    <p>指向指针的指针称为二级指针：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10;
+    int *p = &a;        // 一级指针
+    int **pp = &p;      // 二级指针
+
+    printf("a的值：%d\n", a);        // 输出：10
+    printf("*p的值：%d\n", *p);      // 输出：10
+    printf("**pp的值：%d\n", **pp);  // 输出：10
+
+    **pp = 20;
+    printf("修改后a的值：%d\n", a);  // 输出：20
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 应用场景</h4>
+                        <p>多级指针常用于修改指针变量的值，或在函数中返回指针。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>动态内存分配</h2>
+
+                    <h3>malloc和free</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    // 动态分配内存
+    int *p = (int*)malloc(5 * sizeof(int));
+
+    if (p == NULL) {
+        printf("内存分配失败\n");
+        return 1;
+    }
+
+    // 使用内存
+    for (int i = 0; i < 5; i++) {
+        p[i] = i + 1;
+    }
+
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", p[i]);
+    }
+
+    // 释放内存
+    free(p);
+    p = NULL;  // 防止悬空指针
+
+    return 0;
+}</code></pre>
+
+                    <h3>calloc和realloc</h3>
+                    <pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+// calloc：分配并初始化为0
+int *p1 = (int*)calloc(5, sizeof(int));
+
+// realloc：重新分配内存大小
+int *p2 = (int*)realloc(p, 10 * sizeof(int));</code></pre>
+
+                    <h3>内存分配函数对比</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>函数</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>malloc(size)</code></td><td>分配size字节内存</td></tr>
+                            <tr><td><code>calloc(n, size)</code></td><td>分配n个size字节，并初始化为0</td></tr>
+                            <tr><td><code>realloc(ptr, size)</code></td><td>重新分配内存大小</td></tr>
+                            <tr><td><code>free(ptr)</code></td><td>释放动态分配的内存</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="tip">
+                        <h4>⚠️ 内存管理原则</h4>
+                        <ul>
+                            <li>谁分配，谁释放</li>
+                            <li>释放后置NULL，防止悬空指针</li>
+                            <li>避免内存泄漏</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>常见指针错误</h2>
+
+                    <h3>未初始化的指针</h3>
+                    <pre><code class="language-c">int *p;      // 危险！p指向未知位置
+*p = 10;    // 可能导致程序崩溃</code></pre>
+
+                    <h3>野指针</h3>
+                    <pre><code class="language-c">int *p = (int*)malloc(sizeof(int));
+free(p);
+*p = 10;    // 错误！p指向已释放的内存</code></pre>
+
+                    <h3>指针越界</h3>
+                    <pre><code class="language-c">int arr[5];
+int *p = arr;
+for (int i = 0; i <= 5; i++) {
+    *(p + i) = i;  // 错误！i=5时越界
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 安全使用指针</h4>
+                        <ul>
+                            <li>初始化指针为NULL</li>
+                            <li>使用前检查指针是否为NULL</li>
+                            <li>释放后置NULL</li>
+                            <li>使用const保护不应修改的数据</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>综合示例：链表</h2>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+// 创建节点
+struct Node* createNode(int data) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// 插入节点
+void insertNode(struct Node **head, int data) {
+    struct Node *newNode = createNode(data);
+    newNode->next = *head;
+    *head = newNode;
+}
+
+// 打印链表
+void printList(struct Node *head) {
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node *head = NULL;
+
+    insertNode(&head, 10);
+    insertNode(&head, 20);
+    insertNode(&head, 30);
+
+    printList(head);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>本章小结</h2>
+                    <ul>
+                        <li>✓ 理解了指针的基本概念</li>
+                        <li>✓ 掌握了指针的运算</li>
+                        <li>✓ 学会了指针与数组、函数的结合使用</li>
+                        <li>✓ 了解了动态内存分配</li>
+                        <li>✓ 认识了指针使用的常见错误</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <ul>
+                        <li><a href="/pages/chapter6.html">第6章 函数</a> - 深入学习函数</li>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a> - 学习自定义数据类型</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

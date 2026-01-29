@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C语言面试常见题 | C语言程序设计</title>
+    <meta name="description" content="C语言面试中常见的基础题、算法题和编程题，包含详细解析">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="/pages/c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="/pages/main-function.html">main函数详解</a></li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a></li>
+                        <li><a href="/pages/chapter5.html">第5章 指针</a></li>
+                        <li><a href="/pages/chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="/pages/cases.html">经典案例与解析</a></li>
+                        <li><a href="/pages/exam-tips.html">期末考试易错点</a></li>
+                        <li><a href="/pages/interview-questions.html" class="active">面试常见题</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>C语言面试常见题</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">面试必备 基础题+算法题+编程题全覆盖</span>
+                </div>
+
+                <section class="section">
+                    <h2>题目分类</h2>
+                    <ul>
+                        <li><a href="#basics">一、基础概念题</a></li>
+                        <li><a href="#pointers">二、指针与内存</a></li>
+                        <li><a href="#arrays">三、数组与字符串</a></li>
+                        <li><a href="#functions">四、函数与递归</a></li>
+                        <li><a href="#bitwise">五、位运算</a></li>
+                        <li><a href="#algorithms">六、算法实现</a></li>
+                    </ul>
+                </section>
+
+                <section class="section" id="basics">
+                    <h2>一、基础概念题</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q1: strlen() 和 sizeof() 的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">char str[] = "Hello";
+
+sizeof(str)   // 返回 6（包含'\0'）
+strlen(str)   // 返回 5（不包含'\0'）
+
+char* p = "Hello";
+sizeof(p)     // 返回指针大小（4或8字节）
+strlen(p)     // 返回 5</code></pre>
+                            <p><strong>关键区别：</strong></p>
+                            <ul>
+                                <li><code>sizeof</code>是运算符，编译时确定，计算变量/类型占用的字节数</li>
+                                <li><code>strlen</code>是函数，运行时计算，统计字符串长度（不包含'\0'）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q2: ++i 和 i++ 的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">int i = 5;
+
+// 前置++：先加1，再使用
+int a = ++i;  // a=6, i=6
+
+// 后置++：先使用，再加1
+int b = i++;  // b=6, i=7</code></pre>
+                            <p><strong>效率：</strong>前置++效率更高，因为不需要保存临时值</p>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q3: static 关键字的作用？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <p><strong>1. 修饰局部变量：</strong></p>
+                            <pre><code class="language-c">void func() {
+    static int count = 0;  // 只初始化一次
+    count++;
+    printf("%d ", count);
+}
+
+int main() {
+    func();  // 输出: 1
+    func();  // 输出: 2
+    func();  // 输出: 3
+}</code></pre>
+                            <p><strong>2. 修饰全局变量：</strong></p>
+                            <pre><code class="language-c">static int g_var = 10;  // 只在本文件内可见</code></pre>
+                            <p><strong>3. 修饰函数：</strong></p>
+                            <pre><code class="language-c">static void helper() {  // 只在本文件内可见
+    // ...
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q4: const 关键字的作用？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">// 1. 常量
+const int MAX = 100;
+
+// 2. 指向常量的指针（内容不能改）
+const int* p;
+*p = 10;  // ❌ 错误
+p++;      // ✅ 可以
+
+// 3. 常量指针（指向不能改）
+int* const p = &a;
+*p = 10;  // ✅ 可以
+p++;      // ❌ 错误
+
+// 4. 指向常量的常量指针
+const int* const p = &a;
+*p = 10;  // ❌ 错误
+p++;      // ❌ 错误</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="pointers">
+                    <h2>二、指针与内存</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q5: 指针和引用的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <p>C语言没有引用，这是C++概念。但在面试中常问：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>特性</th>
+                                        <th>指针</th>
+                                        <th>引用(C++)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>本质</td><td>变量</td><td>别名</td></tr>
+                                    <tr><td>是否占用内存</td><td>是</td><td>否</td></tr>
+                                    <tr><td>能否为空</td><td>可以(NULL)</td><td>不可以</td></tr>
+                                    <tr><td>初始化</td><td>可以不初始化</td><td>必须初始化</td></tr>
+                                    <tr><td>改变指向</td><td>可以</td><td>不可以</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q6: 野指针是什么？如何避免？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <p><strong>野指针：</strong>指向不确定内存地址的指针</p>
+                            <pre><code class="language-c">// 野指针的几种情况：
+
+// 1. 未初始化
+int* p;      // 野指针！指向随机地址
+*p = 10;     // 危险！
+
+// 2. 释放后未置空
+int* p = (int*)malloc(sizeof(int));
+free(p);
+*p = 10;     // 野指针！p指向已释放的内存
+
+// 3. 指针超越变量作用域
+int* func() {
+    int a = 10;
+    return &a;  // 返回局部变量地址！
+}</code></pre>
+                            <p><strong>避免方法：</strong></p>
+                            <pre><code class="language-c">// 1. 初始化为NULL
+int* p = NULL;
+
+// 2. free后置NULL
+free(p);
+p = NULL;
+
+// 3. 使用前检查
+if (p != NULL) {
+    *p = 10;
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q7: malloc 和 calloc 的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>特性</th>
+                                        <th>malloc</th>
+                                        <th>calloc</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>参数</td><td>malloc(字节数)</td><td>calloc(元素个数, 每个元素大小)</td></tr>
+                                    <tr><td>初始化</td><td>不初始化，内容随机</td><td>初始化为0</td></tr>
+                                    <tr><td>效率</td><td>稍快</td><td>稍慢</td></tr>
+                                </tbody>
+                            </table>
+                            <pre><code class="language-c">// malloc
+int* p1 = (int*)malloc(5 * sizeof(int));
+// 内容不确定
+
+// calloc
+int* p2 = (int*)calloc(5, sizeof(int));
+// 内容全为0</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="arrays">
+                    <h2>三、数组与字符串</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q8: 数组名和指针的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">int arr[5] = {1, 2, 3, 4, 5};
+int* p = arr;
+
+// 相同点
+arr[i]    等价于  p[i]
+*(arr+i)  等价于  *(p+i)
+
+// 不同点
+sizeof(arr)  // 20 (整个数组大小)
+sizeof(p)    // 4或8 (指针大小)
+
+arr++  // ❌ 错误！数组名是常量
+p++    // ✅ 正确</code></pre>
+                            <p><strong>关键：</strong>数组名在某些情况下会退化为指针，但它们不是同一类型</p>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q9: 如何实现字符串反转？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">#include &lt;string.h&gt;
+
+void reverse(char* str) {
+    if (str == NULL) return;
+
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++) {
+        // 交换首尾字符
+        char temp = str[i];
+        str[i] = str[len - 1 - i];
+        str[len - 1 - i] = temp;
+    }
+}
+
+int main() {
+    char str[] = "Hello";
+    reverse(str);
+    printf("%s\n", str);  // 输出: olleH
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q10: 如何判断一个字符串是否是回文？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">#include &lt;string.h&gt;
+#include &lt;stdbool.h&gt;
+
+bool isPalindrome(char* str) {
+    if (str == NULL) return false;
+
+    int len = strlen(str);
+    int left = 0;
+    int right = len - 1;
+
+    while (left < right) {
+        if (str[left] != str[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
+int main() {
+    printf("%d\n", isPalindrome("aba"));    // 1 (true)
+    printf("%d\n", isPalindrome("abc"));    // 0 (false)
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="functions">
+                    <h2>四、函数与递归</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q11: 值传递和地址传递的区别？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">// 值传递
+void swap1(int a, int b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}  // 不影响实参
+
+// 地址传递
+void swap2(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}  // 修改实参
+
+int x = 10, y = 20;
+swap1(x, y);    // x,y不变
+swap2(&x, &y);  // x,y被交换</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q12: 递归的三个要素是什么？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <ol>
+                                <li><strong>递归终止条件</strong>：必须有一个明确的结束条件</li>
+                                <li><strong>递归表达式</strong>：问题规模缩小的规律</li>
+                                <li><strong>向终止条件收敛</strong>：每次递归都要接近终止条件</li>
+                            </ol>
+                            <pre><code class="language-c">// 示例：阶乘
+int factorial(int n) {
+    // 1. 终止条件
+    if (n <= 1) {
+        return 1;
+    }
+    // 2. 递归表达式 + 3. 收敛
+    return n * factorial(n - 1);
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="bitwise">
+                    <h2>五、位运算</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q13: 如何判断一个数是否是2的幂？</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">bool isPowerOfTwo(int n) {
+    // 2的幂：二进制只有一个1
+    // 1: 0001
+    // 2: 0010
+    // 4: 0100
+    // 8: 1000
+
+    // n & (n-1) 可以去掉最低位的1
+    return (n > 0) && ((n & (n - 1)) == 0);
+}
+
+int main() {
+    printf("%d\n", isPowerOfTwo(1));   // 1
+    printf("%d\n", isPowerOfTwo(2));   // 1
+    printf("%d\n", isPowerOfTwo(3));   // 0
+    printf("%d\n", isPowerOfTwo(4));   // 1
+    printf("%d\n", isPowerOfTwo(5));   // 0
+}</code></pre>
+                            <p><strong>原理：</strong>2的幂的二进制表示只有一个1，n&(n-1)会将这个1变为0</p>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q14: 如何交换两个变量的值（不使用第三个变量）？</h3>
+                        <div class="analysis">
+                            <h5>方法1：加减法</h5>
+                            <pre><code class="language-c">int a = 10, b = 20;
+
+a = a + b;  // a=30, b=20
+b = a - b;  // a=30, b=10
+a = a - b;  // a=20, b=10</code></pre>
+                            <p><strong>缺点：</strong>可能溢出</p>
+
+                            <h5>方法2：异或法（推荐）</h5>
+                            <pre><code class="language-c">int a = 10, b = 20;
+
+a = a ^ b;
+b = a ^ b;  // b = (a^b)^b = a
+a = a ^ b;  // a = (a^b)^a = b</code></pre>
+                            <p><strong>优点：</strong>不会溢出，效率高</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="algorithms">
+                    <h2>六、算法实现</h2>
+
+                    <div class="chapter-card">
+                        <h3>Q15: 实现二分查找</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">int binarySearch(int arr[], int n, int target) {
+    int left = 0;
+    int right = n - 1;
+
+    while (left <= right) {
+        // 防止溢出
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        } else if (arr[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;  // 未找到
+}</code></pre>
+                            <p><strong>时间复杂度：</strong>O(log n)</p>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q16: 实现斐波那契数列</h3>
+                        <div class="analysis">
+                            <h5>方法1：递归（低效）</h5>
+                            <pre><code class="language-c">int fib(int n) {
+    if (n <= 1) return n;
+    return fib(n - 1) + fib(n - 2);
+}</code></pre>
+                            <p><strong>时间复杂度：</strong>O(2ⁿ) - 有大量重复计算</p>
+
+                            <h5>方法2：迭代（推荐）</h5>
+                            <pre><code class="language-c">int fib(int n) {
+    if (n <= 1) return n;
+
+    int a = 0, b = 1, c;
+    for (int i = 2; i <= n; i++) {
+        c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}</code></pre>
+                            <p><strong>时间复杂度：</strong>O(n)</p>
+                        </div>
+                    </div>
+
+                    <div class="chapter-card">
+                        <h3>Q17: 判断一个数是否是素数</h3>
+                        <div class="analysis">
+                            <h5>答案：</h5>
+                            <pre><code class="language-c">#include &lt;stdbool.h&gt;
+#include &lt;math.h&gt;
+
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+
+    // 只需检查到√n
+    for (int i = 3; i <= sqrt(n); i += 2) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}</code></pre>
+                            <p><strong>优化：</strong>只检查到√n，跳过偶数</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>面试技巧</h2>
+                    <div class="tips">
+                        <div class="tip">
+                            <h4>💡 回答问题的技巧</h4>
+                            <ul>
+                                <li>先说结论，再解释原因</li>
+                                <li>用代码示例佐证观点</li>
+                                <li>分析不同方案的优缺点</li>
+                                <li>考虑边界情况和错误处理</li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <h4>💡 编程题技巧</h4>
+                            <ul>
+                                <li>先明确需求，再动手编码</li>
+                                <li>先写框架，再填细节</li>
+                                <li>注意变量命名和代码风格</li>
+                                <li>主动测试边界情况</li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <h4>💡 常见追问</h4>
+                            <ul>
+                                <li>"这个算法的时间复杂度是多少？"</li>
+                                <li>"有没有更优的解决方案？"</li>
+                                <li>"如果数据量很大怎么办？"</li>
+                                <li>"如何处理并发/线程安全问题？"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>相关资源</h2>
+                    <ul>
+                        <li><a href="/pages/exam-tips.html">期末考试易错点</a> - 巩固基础知识</li>
+                        <li><a href="/pages/cases.html">经典案例与解析</a> - 实战项目经验</li>
+                        <li><a href="/pages/chapter5.html">第5章 指针</a> - 指针专题</li>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a> - 数组与字符串</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

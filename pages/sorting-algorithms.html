@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常见排序算法详解 | C语言程序设计</title>
+    <meta name="description" content="详细讲解冒泡排序、选择排序、插入排序等常见排序算法，包含代码实现和复杂度分析">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="/pages/c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="/pages/main-function.html">main函数详解</a></li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a></li>
+                        <li><a href="/pages/chapter5.html">第5章 指针</a></li>
+                        <li><a href="/pages/chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="/pages/cases.html">经典案例与解析</a></li>
+                        <li><a href="/pages/exam-tips.html">期末考试易错点</a></li>
+                        <li><a href="/pages/interview-questions.html">面试常见题</a></li>
+                        <li><a href="/pages/sorting-algorithms.html" class="active">排序算法详解</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>常见排序算法详解</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">核心算法 排序是编程面试必考内容，必须熟练掌握</span>
+                </div>
+
+                <section class="section">
+                    <h2>算法概览</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>算法</th>
+                                <th>平均时间</th>
+                                <th>最坏时间</th>
+                                <th>空间</th>
+                                <th>稳定性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>冒泡排序</strong></td>
+                                <td>O(n²)</td>
+                                <td>O(n²)</td>
+                                <td>O(1)</td>
+                                <td>✅ 稳定</td>
+                            </tr>
+                            <tr>
+                                <td><strong>选择排序</strong></td>
+                                <td>O(n²)</td>
+                                <td>O(n²)</td>
+                                <td>O(1)</td>
+                                <td>❌ 不稳定</td>
+                            </tr>
+                            <tr>
+                                <td><strong>插入排序</strong></td>
+                                <td>O(n²)</td>
+                                <td>O(n²)</td>
+                                <td>O(1)</td>
+                                <td>✅ 稳定</td>
+                            </tr>
+                            <tr>
+                                <td><strong>快速排序</strong></td>
+                                <td>O(n log n)</td>
+                                <td>O(n²)</td>
+                                <td>O(log n)</td>
+                                <td>❌ 不稳定</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h2>一、冒泡排序 (Bubble Sort)</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 算法说明</h4>
+                        <p>通过相邻元素比较和交换，将最大（或最小）元素"冒泡"到数组末尾。</p>
+                        <p><strong>核心思想：</strong>相邻比较，大数下沉</p>
+                        <p><strong>难度：</strong>⭐ (入门)</p>
+                    </div>
+
+                    <h3>基本实现</h3>
+                    <pre><code class="language-c">void bubbleSort(int arr[], int n) {
+    // 外层循环：控制排序轮数
+    for (int i = 0; i < n - 1; i++) {
+        // 内层循环：相邻比较
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // 交换
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}</code></pre>
+
+                    <h3>优化版本</h3>
+                    <pre><code class="language-c">void bubbleSortOptimized(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int swapped = 0;  // 标记本轮是否发生交换
+
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // 交换
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = 1;
+            }
+        }
+
+        // 如果本轮没有交换，说明已经有序
+        if (!swapped) break;
+    }
+}</code></pre>
+
+                    <div class="analysis">
+                        <h4>🔍 算法解析</h4>
+                        <h5>1. 为什么是 j < n - 1 - i？</h5>
+                        <pre><code class="language-c">// 第一轮：最大元素冒泡到 arr[n-1]
+// 第二轮：次大元素冒泡到 arr[n-2]
+// 第i轮：第i大元素冒泡到 arr[n-i]
+// 所以内层循环只需要到 n-1-i</code></pre>
+
+                        <h5>2. 执行过程示例</h5>
+                        <p>对 [5, 2, 8, 1, 9] 进行升序排序：</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>轮次</th>
+                                    <th>数组状态</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>初始</td><td>[5, 2, 8, 1, 9]</td><td>-</td></tr>
+                                <tr><td>第1轮</td><td>[2, 5, 1, 8, <strong>9</strong>]</td><td>9冒泡到末尾</td></tr>
+                                <tr><td>第2轮</td><td>[2, 1, 5, <strong>8</strong>, 9]</td><td>8冒泡到位置3</td></tr>
+                                <tr><td>第3轮</td><td>[1, 2, <strong>5</strong>, 8, 9]</td><td>5冒泡到位置2</td></tr>
+                                <tr><td>第4轮</td><td>[<strong>1</strong>, 2, 5, 8, 9]</td><td>2冒泡到位置1</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h5>3. 时间复杂度分析</h5>
+                        <ul>
+                            <li><strong>最好情况：</strong>O(n) - 数组已经有序（优化版）</li>
+                            <li><strong>最坏情况：</strong>O(n²) - 数组逆序</li>
+                            <li><strong>平均情况：</strong>O(n²)</li>
+                        </ul>
+                    </div>
+
+                    <h3>易错点</h3>
+                    <div class="tip">
+                        <h4>⚠️ 常见错误</h4>
+                        <ul>
+                            <li>内层循环写成 <code>j < n - 1</code>（应该是 <code>j < n - 1 - i</code>）</li>
+                            <li>交换时忘记使用临时变量</li>
+                            <li>数组越界：<code>j + 1</code>可能超出范围</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>二、选择排序 (Selection Sort)</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 算法说明</h4>
+                        <p>每次从未排序部分选择最小元素，放到已排序部分的末尾。</p>
+                        <p><strong>核心思想：</strong>每次选最小，放到前面</p>
+                        <p><strong>难度：</strong>⭐ (入门)</p>
+                    </div>
+
+                    <h3>基本实现</h3>
+                    <pre><code class="language-c">void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        // 假设当前元素是最小的
+        int minIndex = i;
+
+        // 在未排序部分找最小元素
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        // 将最小元素放到正确位置
+        if (minIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+}</code></pre>
+
+                    <div class="analysis">
+                        <h4>🔍 算法解析</h4>
+                        <h5>1. 执行过程示例</h5>
+                        <p>对 [5, 2, 8, 1, 9] 进行排序：</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>轮次</th>
+                                    <th>最小值</th>
+                                    <th>数组状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>第1轮</td><td>1 (位置3)</td><td>[<strong>1</strong>, 5, 8, 2, 9]</td></tr>
+                                <tr><td>第2轮</td><td>2 (位置3)</td><td>[1, <strong>2</strong>, 8, 5, 9]</td></tr>
+                                <tr><td>第3轮</td><td>5 (位置3)</td><td>[1, 2, <strong>5</strong>, 8, 9]</td></tr>
+                                <tr><td>第4轮</td><td>8 (位置3)</td><td>[1, 2, 5, <strong>8</strong>, 9]</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h5>2. 关键点</h5>
+                        <ul>
+                            <li><code>minIndex</code>初始化为<code>i</code>，不是0</li>
+                            <li>内层循环从<code>i + 1</code>开始</li>
+                            <li>找到最小元素后才交换，减少交换次数</li>
+                        </ul>
+
+                        <h5>3. 为什么不稳定？</h5>
+                        <pre><code class="language-c">// 示例：[5, 5, 2]
+// 第一轮：选2，与第一个5交换
+// 变成：[2, 5, 5]
+// 两个5的相对位置改变了！</code></pre>
+                    </div>
+
+                    <h3>易错点</h3>
+                    <div class="tip">
+                        <h4>⚠️ 常见错误</h4>
+                        <ul>
+                            <li><code>minIndex</code>初始化为0（应该是i）</li>
+                            <li>内层循环从i开始（应该从i+1开始）</li>
+                            <li>忘记检查<code>minIndex != i</code>导致不必要的交换</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>三、插入排序 (Insertion Sort)</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 算法说明</h4>
+                        <p>将未排序元素插入到已排序部分的正确位置。</p>
+                        <p><strong>核心思想：</strong>像整理扑克牌一样</p>
+                        <p><strong>难度：</strong>⭐⭐ (较简单)</p>
+                    </div>
+
+                    <h3>基本实现</h3>
+                    <pre><code class="language-c">void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];      // 待插入元素
+        int j = i - 1;
+
+        // 将大于key的元素向后移
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        // 插入key到正确位置
+        arr[j + 1] = key;
+    }
+}</code></pre>
+
+                    <div class="analysis">
+                        <h4>🔍 算法解析</h4>
+                        <h5>1. 执行过程示例</h5>
+                        <p>对 [5, 2, 8, 1, 9] 进行排序：</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>轮次</th>
+                                    <th>待插入</th>
+                                    <th>过程</th>
+                                    <th>结果</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>初始</td><td>-</td><td>-</td><td>[5]</td></tr>
+                                <tr><td>第1轮</td><td>2</td><td>2<5，5后移</td><td>[<strong>2</strong>, 5]</td></tr>
+                                <tr><td>第2轮</td><td>8</td><td>8>5，直接插入</td><td>[2, 5, <strong>8</strong>]</td></tr>
+                                <tr><td>第3轮</td><td>1</td><td>1<2,5,8，全部后移</td><td>[<strong>1</strong>, 2, 5, 8]</td></tr>
+                                <tr><td>第4轮</td><td>9</td><td>9>8，直接插入</td><td>[1, 2, 5, 8, <strong>9</strong>]</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h5>2. 关键点</h5>
+                        <ul>
+                            <li><code>key</code>必须单独保存，否则在移动元素时丢失</li>
+                            <li><code>j</code>从<code>i-1</code>开始，向前扫描</li>
+                            <li>循环条件<code>j >= 0 && arr[j] > key</code>防止越界</li>
+                        </ul>
+
+                        <h5>3. 为什么稳定？</h5>
+                        <pre><code class="language-c">// 只在 arr[j] > key 时才移动
+// 相等的元素不移动，保持相对位置
+// 所以是稳定的</code></pre>
+
+                        <h5>4. 时间复杂度特点</h5>
+                        <ul>
+                            <li><strong>最好情况：</strong>O(n) - 数组已经有序</li>
+                            <li><strong>最坏情况：</strong>O(n²) - 数组逆序</li>
+                            <li><strong>平均情况：</strong>O(n²)</li>
+                        </ul>
+                    </div>
+
+                    <h3>易错点</h3>
+                    <div class="tip">
+                        <h4>⚠️ 常见错误</h4>
+                        <ul>
+                            <li>忘记保存<code>key</code>，导致数据丢失</li>
+                            <li><code>j</code>从i开始（应该从i-1开始）</li>
+                            <li>while循环条件缺少<code>j >= 0</code>导致越界</li>
+                            <li>插入位置写成<code>arr[j]</code>（应该是<code>arr[j+1]</code>）</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>四、快速排序 (Quick Sort)</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 算法说明</h4>
+                        <p>选择基准元素，将数组分为两部分，左边小于基准，右边大于基准，递归排序。</p>
+                        <p><strong>核心思想：</strong>分而治之</p>
+                        <p><strong>难度：</strong>⭐⭐⭐⭐ (较难)</p>
+                    </div>
+
+                    <h3>基本实现</h3>
+                    <pre><code class="language-c">// 分区函数
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // 选择最后一个元素作为基准
+    int i = low - 1;        // i是小于基准元素的边界
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            // 交换arr[i]和arr[j]
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    // 将基准放到正确位置
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;
+}
+
+// 快速排序主函数
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        // 分区
+        int pi = partition(arr, low, high);
+
+        // 递归排序左半部分
+        quickSort(arr, low, pi - 1);
+
+        // 递归排序右半部分
+        quickSort(arr, pi + 1, high);
+    }
+}</code></pre>
+
+                    <div class="analysis">
+                        <h4>🔍 算法解析</h4>
+                        <h5>1. 执行过程示例</h5>
+                        <p>对 [5, 2, 8, 1, 9] 排序，选择9为基准：</p>
+                        <pre><code class="language-c">初始: [5, 2, 8, 1, 9]
+      基准=9
+
+分区后: [5, 2, 8, 1] 9
+       左边都小于9
+
+递归左半部分: [5, 2, 8, 1]
+选择基准=1
+
+分区后: 1 [5, 2, 8]
+       1是基准
+
+继续分区...直到完全有序</code></pre>
+
+                        <h5>2. 关键点</h5>
+                        <ul>
+                            <li><code>i</code>从<code>low-1</code>开始，便于第一次<code>i++</code></li>
+                            <li>基准选择影响效率，一般选最后一个元素</li>
+                            <li>递归终止条件：<code>low < high</code></li>
+                        </ul>
+
+                        <h5>3. 时间复杂度</h5>
+                        <ul>
+                            <li><strong>最好情况：</strong>O(n log n) - 每次基准恰好将数组平分</li>
+                            <li><strong>最坏情况：</strong>O(n²) - 每次基准是最小或最大元素</li>
+                            <li><strong>平均情况：</strong>O(n log n)</li>
+                        </ul>
+
+                        <h5>4. 空间复杂度</h5>
+                        <p>O(log n) - 递归调用栈的深度</p>
+                    </div>
+
+                    <h3>优化建议</h3>
+                    <div class="tip">
+                        <h4>💡 快速排序优化</h4>
+                        <ol>
+                            <li><strong>随机选择基准</strong> - 避免最坏情况</li>
+                            <li><strong>三数取中法</strong> - 选择首、中、尾的中位数作为基准</li>
+                            <li><strong>小数组改用插入排序</strong> - 当n<10时用插入排序</li>
+                            <li><strong>三路划分</strong> - 处理大量重复元素的情况</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>五、排序算法对比与应用</h2>
+
+                    <h3>算法选择建议</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>场景</th>
+                                <th>推荐算法</th>
+                                <th>原因</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>小规模数据 (n<50)</td><td>插入排序</td><td>常数因子小，实现简单</td></tr>
+                            <tr><td>基本有序</td><td>插入排序</td><td>时间复杂度接近O(n)</td></tr>
+                            <tr><td>大规模数据</td><td>快速排序</td><td>平均性能最优</td></tr>
+                            <tr><td>要求稳定</td><td>归并排序</td><td>稳定且O(n log n)</td></tr>
+                            <tr><td>内存受限</td><td>堆排序</td><td>空间复杂度O(1)</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>实际应用示例</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+// 生成随机数组
+void generateRandomArray(int arr[], int n) {
+    srand(time(NULL));
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 100;
+    }
+}
+
+// 打印数组
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// 测试各种排序算法
+int main() {
+    int arr1[10], arr2[10], arr3[10];
+
+    generateRandomArray(arr1, 10);
+
+    // 复制数组
+    for (int i = 0; i < 10; i++) {
+        arr2[i] = arr3[i] = arr1[i];
+    }
+
+    printf("原数组：");
+    printArray(arr1, 10);
+
+    // 测试冒泡排序
+    bubbleSort(arr1, 10);
+    printf("冒泡排序：");
+    printArray(arr1, 10);
+
+    // 测试选择排序
+    selectionSort(arr2, 10);
+    printf("选择排序：");
+    printArray(arr2, 10);
+
+    // 测试插入排序
+    insertionSort(arr3, 10);
+    printf("插入排序：");
+    printArray(arr3, 10);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>练习题</h2>
+                    <div class="tips">
+                        <div class="tip">
+                            <h4>📝 基础练习</h4>
+                            <ol>
+                                <li>实现降序排序的冒泡排序</li>
+                                <li>实现双向冒泡排序（鸡尾酒排序）</li>
+                                <li>实现二分插入排序</li>
+                            </ol>
+                        </div>
+                        <div class="tip">
+                            <h4>📝 进阶练习</h4>
+                            <ol>
+                                <li>实现归并排序</li>
+                                <li>实现堆排序</li>
+                                <li>优化快速排序（三数取中）</li>
+                            </ol>
+                        </div>
+                        <div class="tip">
+                            <h4>📝 挑战练习</h4>
+                            <ol>
+                                <li>实现多路归并排序</li>
+                                <li>实现带有计数功能的排序算法</li>
+                                <li>对二维数组按某列排序</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>总结</h2>
+                    <div class="analysis">
+                        <h4>记忆口诀</h4>
+                        <ul>
+                            <li><strong>冒泡排序</strong>：相邻比较，大数下沉</li>
+                            <li><strong>选择排序</strong>：每次选小，放到前面</li>
+                            <li><strong>插入排序</strong>：像理扑克，插入到位</li>
+                            <li><strong>快速排序</strong>：选定基准，分而治之</li>
+                        </ul>
+
+                        <h4>时间复杂度记忆</h4>
+                        <ul>
+                            <li>冒泡、选择、插入都是O(n²)</li>
+                            <li>快速、归并、堆都是O(n log n)</li>
+                            <li>插入排序对基本有序的数据效率高</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

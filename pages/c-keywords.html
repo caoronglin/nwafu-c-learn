@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C语言32个关键字 | C语言程序设计</title>
+    <meta name="description" content="详细讲解C语言的32个关键字，包括数据类型、存储类型、控制语句等核心概念">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="/pages/c-keywords.html" class="active">C语言32个关键字</a></li>
+                        <li><a href="/pages/main-function.html">main函数详解</a></li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a></li>
+                        <li><a href="/pages/chapter5.html">第5章 指针</a></li>
+                        <li><a href="/pages/chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="/pages/cases.html">经典案例与解析</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>C语言32个关键字</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">高优先级 必须掌握 所有C语言程序都由这些关键字组合而成</span>
+                </div>
+
+                <section class="section">
+                    <h2>什么是关键字？</h2>
+                    <p><strong>关键字</strong>（Keywords）是C语言中预保留的具有特殊含义的单词，它们不能用作变量名、函数名或其他用户定义的标识符。C语言共有<strong>32个关键字</strong>，掌握了这些关键字就等于掌握了C语言的核心。</p>
+
+                    <p>关键字可以分为以下几大类：</p>
+                    <ul>
+                        <li><strong>数据类型关键字</strong>：定义变量和数据的类型</li>
+                        <li><strong>控制语句关键字</strong>：控制程序的执行流程</li>
+                        <li><strong>存储类型关键字</strong>：指定变量的存储方式和作用域</li>
+                        <li><strong>其他关键字</strong>：用于特定功能的特殊关键字</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>数据类型关键字</h2>
+
+                    <h3>基本数据类型</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>void</code></td>
+                                <td>声明函数无返回值或无参数，声明无类型指针，显式丢弃运算结果</td>
+                                <td><code>void func(void);</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>char</code></td>
+                                <td>字符型类型数据，属于整型数据的一种，通常占1字节</td>
+                                <td><code>char c = 'A';</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>int</code></td>
+                                <td>整型数据，通常为编译器指定的机器字长</td>
+                                <td><code>int age = 25;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>float</code></td>
+                                <td>单精度浮点型数据，小数点后保存6位有效数字</td>
+                                <td><code>float pi = 3.14f;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>double</code></td>
+                                <td>双精度浮点型数据，小数点后保存15-16位有效数字</td>
+                                <td><code>double e = 2.71828;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>类型修饰符</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>short</code></td>
+                                <td>修饰int，短整型数据，可省略被修饰的int</td>
+                                <td><code>short s = 100;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>long</code></td>
+                                <td>修饰int，长整型数据，可省略被修饰的int</td>
+                                <td><code>long l = 100000L;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>signed</code></td>
+                                <td>修饰整型数据，有符号数据类型（默认）</td>
+                                <td><code>signed int i = -10;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>unsigned</code></td>
+                                <td>修饰整型数据，无符号数据类型，只能表示正数</td>
+                                <td><code>unsigned int u = 10;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>构造类型</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>struct</code></td>
+                                <td>结构体声明，将不同类型的数据组合在一起</td>
+                                <td><code>struct Student { int age; char name[20]; };</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>union</code></td>
+                                <td>共用体声明，不同类型数据共享同一内存空间</td>
+                                <td><code>union Data { int i; float f; };</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>enum</code></td>
+                                <td>枚举声明，定义一组命名的整数常量</td>
+                                <td><code>enum Color { RED, GREEN, BLUE };</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h2>存储类型关键字</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>作用域</th>
+                                <th>生命周期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>auto</code></td>
+                                <td>自动变量，由编译器自动分配及释放，通常在栈上分配</td>
+                                <td>局部</td>
+                                <td>临时</td>
+                            </tr>
+                            <tr>
+                                <td><code>static</code></td>
+                                <td>静态变量，分配在静态变量区；修饰函数时，限定函数作用域为文件内部</td>
+                                <td>局部/全局</td>
+                                <td>永久</td>
+                            </tr>
+                            <tr>
+                                <td><code>register</code></td>
+                                <td>寄存器变量，建议编译器将变量存储到寄存器中以提高访问速度</td>
+                                <td>局部</td>
+                                <td>临时</td>
+                            </tr>
+                            <tr>
+                                <td><code>extern</code></td>
+                                <td>外部变量，声明变量或函数在其他文件中定义</td>
+                                <td>全局</td>
+                                <td>永久</td>
+                            </tr>
+                            <tr>
+                                <td><code>typedef</code></td>
+                                <td>类型别名，为已有类型定义新的名称</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="tip">
+                        <h4>💡 存储类型说明</h4>
+                        <ul>
+                            <li><code>auto</code>是局部变量的默认存储类型，很少显式使用</li>
+                            <li><code>static</code>用于限制变量的作用域或延长变量的生命周期</li>
+                            <li><code>register</code>只是建议，编译器可能忽略</li>
+                            <li><code>extern</code>用于跨文件共享变量和函数</li>
+                            <li><code>typedef</code>不创建新类型，只是为现有类型创建别名</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>控制语句关键字</h2>
+
+                    <h3>选择语句</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>if</code></td>
+                                <td>条件判断语句</td>
+                                <td><code>if (x > 0) { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>else</code></td>
+                                <td>与if配合使用，表示条件不满足时执行</td>
+                                <td><code>else { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>switch</code></td>
+                                <td>多分支选择语句</td>
+                                <td><code>switch (day) { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>case</code></td>
+                                <td>switch语句中的分支标签</td>
+                                <td><code>case 1: ...;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>default</code></td>
+                                <td>switch语句中的默认分支</td>
+                                <td><code>default: ...;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>循环语句</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>for</code></td>
+                                <td>for循环语句</td>
+                                <td><code>for (int i = 0; i < 10; i++) { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>while</code></td>
+                                <td>while循环语句</td>
+                                <td><code>while (condition) { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>do</code></td>
+                                <td>do-while循环语句，先执行后判断</td>
+                                <td><code>do { ... } while (condition);</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>跳转语句</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>break</code></td>
+                                <td>跳出当前循环或switch语句</td>
+                                <td><code>break;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>continue</code></td>
+                                <td>结束本次循环，开始下一次循环</td>
+                                <td><code>continue;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>goto</code></td>
+                                <td>无条件跳转语句（不推荐使用）</td>
+                                <td><code>goto label;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>return</code></td>
+                                <td>从函数返回，可带回返回值</td>
+                                <td><code>return 0;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h2>运算符关键字</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>关键字</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>sizeof</code></td>
+                                <td>计算特定类型或变量的大小（字节）</td>
+                                <td><code>int size = sizeof(int);</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h2>完整关键字列表</h2>
+                    <p>C语言的32个关键字按字母顺序排列：</p>
+                    <pre><code>auto      break    case     char     const     continue
+default   do       double   else     enum      extern
+float     for      goto     if       int       long
+register  return   short    signed   sizeof    static
+struct    switch   typedef  union    unsigned  void
+volatile  while</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 注意：C99标准新增了</h4>
+                        <p>除了上述32个关键字，C99标准新增了<code>_Bool</code>、<code>_Complex</code>、<code>_Imaginary</code>等关键字，C11标准又新增了<code>_Alignas</code>、<code>_Generic</code>等。但传统的32个关键字仍然是最核心和最常用的。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>学习建议</h2>
+                    <div class="tips">
+                        <div class="tip">
+                            <h4>💡 分类记忆</h4>
+                            <p>不要死记硬背，要按照功能分类记忆，理解每个关键字的用途和使用场景。</p>
+                        </div>
+                        <div class="tip">
+                            <h4>💡 多写代码</h4>
+                            <p>每个关键字都要在实际代码中使用多次，通过实践加深理解。</p>
+                        </div>
+                        <div class="tip">
+                            <h4>💡 对比学习</h4>
+                            <p>注意相似关键字的区别，如<code>struct</code>与<code>union</code>、<code>while</code>与<code>do-while</code>等。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <p>掌握了C语言的关键字后，建议继续学习：</p>
+                    <ul>
+                        <li><a href="/pages/main-function.html">main函数详解</a> - 理解程序的入口点</li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a> - 学习数据类型和表达式</li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a> - 掌握控制流程</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/prism.js"></script>
+</body>
+</html>

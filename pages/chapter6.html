@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第6章 函数 | C语言程序设计</title>
+    <meta name="description" content="深入学习C语言函数的定义、调用、参数传递和递归">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="/pages/c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="/pages/main-function.html">main函数详解</a></li>
+                        <li><a href="/pages/chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="/pages/chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="/pages/chapter4.html">第4章 数组</a></li>
+                        <li><a href="/pages/chapter5.html">第5章 指针</a></li>
+                        <li><a href="/pages/chapter6.html" class="active">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="/pages/cases.html">经典案例与解析</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>第6章 函数</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">核心章节 重点掌握 函数是模块化程序设计的基础</span>
+                </div>
+
+                <section class="section">
+                    <h2>本章概述</h2>
+                    <p><strong>函数</strong>是执行特定任务的独立代码块，是C语言模块化程序设计的核心。通过函数，我们可以将复杂问题分解为若干小问题，使程序结构清晰、易于维护。</p>
+
+                    <p>本章主要内容：</p>
+                    <ul>
+                        <li>函数的定义和声明</li>
+                        <li>函数的调用</li>
+                        <li>参数传递机制</li>
+                        <li>递归函数</li>
+                        <li>变量的作用域和存储类别</li>
+                        <li>预处理命令</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>函数的定义和声明</h2>
+
+                    <h3>函数定义</h3>
+                    <pre><code class="language-c">返回类型 函数名(参数列表) {
+    // 函数体
+    return 返回值;
+}</code></pre>
+
+                    <pre><code class="language-c">// 示例1：无参无返回值
+void printHello() {
+    printf("Hello, World!\n");
+}
+
+// 示例2：有参无返回值
+void printNumber(int num) {
+    printf("数字：%d\n", num);
+}
+
+// 示例3：有参有返回值
+int add(int a, int b) {
+    return a + b;
+}
+
+// 示例4：返回指针
+int* max(int *a, int *b) {
+    return (*a > *b) ? a : b;
+}</code></pre>
+
+                    <h3>函数声明</h3>
+                    <p>函数声明告诉编译器函数的名称、返回类型和参数。通常在头文件或文件开头进行声明：</p>
+                    <pre><code class="language-c">// 函数声明
+int add(int a, int b);
+void printHello();
+
+int main() {
+    int result = add(10, 20);
+    printf("结果：%d\n", result);
+    printHello();
+    return 0;
+}
+
+// 函数定义
+int add(int a, int b) {
+    return a + b;
+}
+
+void printHello() {
+    printf("Hello, World!\n");
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 为什么需要函数声明？</h4>
+                        <p>如果函数定义在main函数之后，必须在调用前声明函数，否则编译器会报错。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>函数的调用</h2>
+
+                    <h3>基本调用</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int square(int num);
+
+int main() {
+    int x = 5;
+    int result = square(x);  // 函数调用
+    printf("%d的平方是%d\n", x, result);
+    return 0;
+}
+
+int square(int num) {
+    return num * num;
+}</code></pre>
+
+                    <h3>嵌套调用</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+int calculate(int a, int b, int c) {
+    // 嵌套调用
+    return multiply(add(a, b), c);
+}
+
+int main() {
+    int result = calculate(2, 3, 4);  // (2 + 3) * 4 = 20
+    printf("结果：%d\n", result);
+    return 0;
+}</code></pre>
+
+                    <h3>递归调用</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+// 计算阶乘
+long factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);  // 递归调用
+}
+
+// 斐波那契数列
+int fibonacci(int n) {
+    if (n <= 1) {
+        return n;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main() {
+    printf("5的阶乘：%ld\n", factorial(5));
+    printf("斐波那契第10项：%d\n", fibonacci(10));
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>参数传递机制</h2>
+
+                    <h3>值传递</h3>
+                    <p>C语言默认使用值传递，将实参的值复制给形参：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swap(int a, int b) {
+    int temp = a;
+    a = b;
+    b = temp;
+    printf("函数内：a=%d, b=%d\n", a, b);
+}
+
+int main() {
+    int x = 10, y = 20;
+    printf("调用前：x=%d, y=%d\n", x, y);
+    swap(x, y);
+    printf("调用后：x=%d, y=%d\n", x, y);  // x和y的值没有改变
+    return 0;
+}</code></pre>
+
+                    <h3>地址传递</h3>
+                    <p>通过传递指针实现地址传递，可以修改原变量的值：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int x = 10, y = 20;
+    printf("调用前：x=%d, y=%d\n", x, y);
+    swap(&x, &y);
+    printf("调用后：x=%d, y=%d\n", x, y);  // x和y的值已交换
+    return 0;
+}</code></pre>
+
+                    <h3>数组作为参数</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+// 数组作为参数会退化为指针
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+void modifyArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr[i] *= 2;
+    }
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("原数组：");
+    printArray(arr, size);
+
+    modifyArray(arr, size);
+
+    printf("修改后：");
+    printArray(arr, size);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>变量的作用域和存储类别</h2>
+
+                    <h3>局部变量</h3>
+                    <pre><code class="language-c">void func() {
+    int x = 10;  // 局部变量，只在函数内有效
+    printf("%d\n", x);
+}</code></pre>
+
+                    <h3>全局变量</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int global = 100;  // 全局变量，整个文件都可以访问
+
+void func1() {
+    printf("func1: %d\n", global);
+}
+
+void func2() {
+    printf("func2: %d\n", global);
+}
+
+int main() {
+    func1();
+    func2();
+    printf("main: %d\n", global);
+    return 0;
+}</code></pre>
+
+                    <h3>static变量</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void count() {
+    static int count = 0;  // 静态局部变量，只初始化一次
+    count++;
+    printf("调用次数：%d\n", count);
+}
+
+int main() {
+    count();  // 输出：调用次数：1
+    count();  // 输出：调用次数：2
+    count();  // 输出：调用次数：3
+    return 0;
+}</code></pre>
+
+                    <h3>作用域对比</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>变量类型</th>
+                                <th>作用域</th>
+                                <th>生命周期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>局部变量</td><td>函数内部</td><td>函数调用期间</td></tr>
+                            <tr><td>全局变量</td><td>整个程序</td><td>整个程序运行期间</td></tr>
+                            <tr><td>静态局部变量</td><td>函数内部</td><td>整个程序运行期间</td></tr>
+                            <tr><td>静态全局变量</td><td>当前文件</td><td>整个程序运行期间</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h2>预处理命令</h2>
+
+                    <h3>#define 宏定义</h3>
+                    <pre><code class="language-c">#define PI 3.14159           // 常量宏
+#define MAX(a, b) ((a) > (b) ? (a) : (b))  // 函数宏
+
+int main() {
+    printf("PI = %f\n", PI);
+    int max = MAX(10, 20);
+    printf("最大值 = %d\n", max);
+    return 0;
+}</code></pre>
+
+                    <h3>#include 文件包含</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;       // 系统头文件
+#include "myheader.h"     // 自定义头文件</code></pre>
+
+                    <h3>条件编译</h3>
+                    <pre><code class="language-c">#define DEBUG 1
+
+int main() {
+    #ifdef DEBUG
+        printf("调试模式\n");
+    #endif
+
+    #if DEBUG == 1
+        printf("调试级别1\n");
+    #elif DEBUG == 2
+        printf("调试级别2\n");
+    #else
+        printf("发布模式\n");
+    #endif
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 预处理命令的使用</h4>
+                        <ul>
+                            <li><code>#define</code>用于定义常量和宏</li>
+                            <li><code>#include</code>用于包含头文件</li>
+                            <li>条件编译用于跨平台代码和调试</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>常用库函数</h2>
+
+                    <h3>数学函数 math.h</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main() {
+    printf("sqrt(16) = %f\n", sqrt(16));
+    printf("pow(2, 3) = %f\n", pow(2, 3));
+    printf("abs(-5) = %d\n", abs(-5));
+    printf("sin(PI/2) = %f\n", sin(3.14159/2));
+    return 0;
+}</code></pre>
+
+                    <h3>字符串函数 string.h</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char s1[] = "Hello";
+    char s2[] = "World";
+
+    printf("长度：%lu\n", strlen(s1));
+    strcat(s1, s2);
+    printf("连接：%s\n", s1);
+    printf("比较：%d\n", strcmp("abc", "abd"));
+
+    return 0;
+}</code></pre>
+
+                    <h3>内存操作函数</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    int arr[5] = {1, 2, 3, 4, 5};
+
+    memset(arr, 0, sizeof(arr));
+    memcpy(arr, arr + 2, 2 * sizeof(int));
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>综合示例：学生成绩管理系统</h2>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define MAX_STUDENTS 100
+
+struct Student {
+    char name[50];
+    int id;
+    float score;
+};
+
+int studentCount = 0;
+struct Student students[MAX_STUDENTS];
+
+// 添加学生
+void addStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        printf("学生人数已满！\n");
+        return;
+    }
+
+    printf("姓名：");
+    scanf("%s", students[studentCount].name);
+    printf("学号：");
+    scanf("%d", &students[studentCount].id);
+    printf("成绩：");
+    scanf("%f", &students[studentCount].score);
+
+    studentCount++;
+    printf("添加成功！\n");
+}
+
+// 显示所有学生
+void displayStudents() {
+    if (studentCount == 0) {
+        printf("暂无学生信息！\n");
+        return;
+    }
+
+    printf("\n%-20s %-10s %s\n", "姓名", "学号", "成绩");
+    printf("--------------------------------\n");
+    for (int i = 0; i < studentCount; i++) {
+        printf("%-20s %-10d %.2f\n",
+               students[i].name,
+               students[i].id,
+               students[i].score);
+    }
+}
+
+// 计算平均分
+float calculateAverage() {
+    if (studentCount == 0) return 0;
+
+    float sum = 0;
+    for (int i = 0; i < studentCount; i++) {
+        sum += students[i].score;
+    }
+    return sum / studentCount;
+}
+
+// 查找最高分学生
+void findTopStudent() {
+    if (studentCount == 0) {
+        printf("暂无学生信息！\n");
+        return;
+    }
+
+    int topIndex = 0;
+    for (int i = 1; i < studentCount; i++) {
+        if (students[i].score > students[topIndex].score) {
+            topIndex = i;
+        }
+    }
+
+    printf("\n最高分学生：\n");
+    printf("姓名：%s\n", students[topIndex].name);
+    printf("成绩：%.2f\n", students[topIndex].score);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n1. 添加学生\n");
+        printf("2. 显示所有学生\n");
+        printf("3. 计算平均分\n");
+        printf("4. 查找最高分\n");
+        printf("5. 退出\n");
+        printf("请选择：");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addStudent(); break;
+            case 2: displayStudents(); break;
+            case 3:
+                printf("平均分：%.2f\n", calculateAverage());
+                break;
+            case 4: findTopStudent(); break;
+            case 5: return 0;
+            default: printf("无效选择！\n");
+        }
+    }
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>本章小结</h2>
+                    <ul>
+                        <li>✓ 掌握了函数的定义和声明</li>
+                        <li>✓ 理解了参数传递机制</li>
+                        <li>✓ 学会了递归函数的使用</li>
+                        <li>✓ 了解了变量的作用域和存储类别</li>
+                        <li>✓ 掌握了预处理命令</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <ul>
+                        <li><a href="/pages/chapter7.html">第7章 结构体与共用体</a> - 学习自定义数据类型</li>
+                        <li><a href="/pages/chapter8.html">第8章 文件操作</a> - 学习数据持久化</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
