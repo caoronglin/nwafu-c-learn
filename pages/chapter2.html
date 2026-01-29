@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第2章 C语言基础 | C语言程序设计</title>
+    <meta name="description" content="掌握C语言的基本数据类型、常量、变量、运算符和表达式等基础知识">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="main-function.html">main函数详解</a></li>
+                        <li><a href="chapter2.html" class="active">第2章 C语言基础</a></li>
+                        <li><a href="chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="chapter4.html">第4章 数组</a></li>
+                        <li><a href="chapter5.html">第5章 指针</a></li>
+                        <li><a href="chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="cases.html">经典案例与解析</a></li>
+                        <li><a href="exam-tips.html">期末考试易错点</a></li>
+                        <li><a href="interview-questions.html">面试常见题</a></li>
+                        <li><a href="sorting-algorithms.html">排序算法详解</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>第2章 C语言基础</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">基础章节 重点掌握 数据类型、常量变量、运算符表达式是编程的基础</span>
+                </div>
+
+                <section class="section">
+                    <h2>本章概述</h2>
+                    <p>本章介绍C语言的基础知识，包括：</p>
+                    <ul>
+                        <li>基本数据类型</li>
+                        <li>常量与变量</li>
+                        <li>运算符与表达式</li>
+                        <li>数据类型转换</li>
+                        <li>输入输出函数</li>
+                    </ul>
+
+                    <p>这些知识是学习C语言的<strong>基石</strong>，必须扎实掌握。</p>
+                </section>
+
+                <section class="section">
+                    <h2>基本数据类型</h2>
+
+                    <h3>整型</h3>
+                    <pre><code class="language-c">int a = 100;              // 基本整型
+short b = 10;            // 短整型
+long c = 100000;         // 长整型
+unsigned int d = 200;    // 无符号整型</code></pre>
+
+                    <h3>字符型</h3>
+                    <pre><code class="language-c">char ch = 'A';           // 字符型
+signed char sc = -1;     // 有符号字符型
+unsigned char uc = 255;  // 无符号字符型</code></pre>
+
+                    <h3>浮点型</h3>
+                    <pre><code class="language-c">float f = 3.14f;         // 单精度浮点型
+double d = 3.14159;      // 双精度浮点型</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 数据类型选择原则</h4>
+                        <ul>
+                            <li>整数使用<code>int</code></li>
+                            <li>小数使用<code>double</code>（精度更高）</li>
+                            <li>字符使用<code>char</code></li>
+                            <li>需要大范围数值时使用<code>long</code></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>常量与变量</h2>
+
+                    <h3>常量</h3>
+                    <p>常量是值不能改变的量：</p>
+                    <pre><code class="language-c">// 整型常量
+100    // 十进制
+077    // 八进制
+0xFF   // 十六进制
+
+// 实型常量
+3.14   // 小数形式
+3.14e2 // 指数形式，表示3.14×10²
+
+// 字符常量
+'A'    // 单个字符
+'\n'   // 转义字符
+
+// 字符串常量
+"Hello World"  // 字符串
+
+// 符号常量
+#define PI 3.14159
+const int MAX = 100;</code></pre>
+
+                    <h3>变量</h3>
+                    <p>变量是值可以改变的量，必须先定义后使用：</p>
+                    <pre><code class="language-c">int age = 20;              // 定义并初始化
+float salary;
+salary = 5000.50;          // 赋值
+
+// 批量定义
+int a = 1, b = 2, c = 3;</code></pre>
+
+                    <h3>变量命名规则</h3>
+                    <ul>
+                        <li>只能由字母、数字、下划线组成</li>
+                        <li>不能以数字开头</li>
+                        <li>不能使用关键字</li>
+                        <li>区分大小写</li>
+                        <li>见名知意（推荐）</li>
+                    </ul>
+
+                    <pre><code class="language-c">// 好的变量名
+int studentAge;
+float averageScore;
+
+// 不好的变量名
+int x;          // 含义不明
+int 2number;    // 错误：不能以数字开头
+int int;        // 错误：不能使用关键字</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>运算符与表达式</h2>
+
+                    <h3>算术运算符</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>运算符</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>+</code></td><td>加法</td><td><code>a + b</code></td></tr>
+                            <tr><td><code>-</code></td><td>减法</td><td><code>a - b</code></td></tr>
+                            <tr><td><code>*</code></td><td>乘法</td><td><code>a * b</code></td></tr>
+                            <tr><td><code>/</code></td><td>除法</td><td><code>a / b</code></td></tr>
+                            <tr><td><code>%</code></td><td>取余（模）</td><td><code>a % b</code></td></tr>
+                            <tr><td><code>++</code></td><td>自增</td><td><code>a++</code>或<code>++a</code></td></tr>
+                            <tr><td><code>--</code></td><td>自减</td><td><code>a--</code>或<code>--a</code></td></tr>
+                        </tbody>
+                    </table>
+
+                    <pre><code class="language-c">int a = 10, b = 3;
+printf("%d\n", a + b);  // 输出：13
+printf("%d\n", a / b);  // 输出：3（整数除法）
+printf("%d\n", a % b);  // 输出：1
+
+// 自增自减
+int x = 5;
+printf("%d\n", x++);    // 输出：5，然后x变为6
+printf("%d\n", ++x);    // x先变为7，输出：7</code></pre>
+
+                    <h3>关系运算符</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>运算符</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>==</code></td><td>等于</td><td><code>a == b</code></td></tr>
+                            <tr><td><code>!=</code></td><td>不等于</td><td><code>a != b</code></td></tr>
+                            <tr><td><code>&gt;</code></td><td>大于</td><td><code>a &gt; b</code></td></tr>
+                            <tr><td><code>&lt;</code></td><td>小于</td><td><code>a &lt; b</code></td></tr>
+                            <tr><td><code>&gt;=</code></td><td>大于等于</td><td><code>a &gt;= b</code></td></tr>
+                            <tr><td><code>&lt;=</code></td><td>小于等于</td><td><code>a &lt;= b</code></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>逻辑运算符</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>运算符</th>
+                                <th>说明</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>&amp;&amp;</code></td><td>逻辑与</td><td><code>a &amp;&amp; b</code></td></tr>
+                            <tr><td><code>||</code></td><td>逻辑或</td><td><code>a || b</code></td></tr>
+                            <tr><td><code>!</code></td><td>逻辑非</td><td><code>!a</code></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>赋值运算符</h3>
+                    <pre><code class="language-c">int a = 10;
+a += 5;   // 等价于 a = a + 5，结果为15
+a -= 3;   // 等价于 a = a - 3，结果为12
+a *= 2;   // 等价于 a = a * 2，结果为24
+a /= 4;   // 等价于 a = a / 4，结果为6
+a %= 4;   // 等价于 a = a % 4，结果为2</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 运算符优先级</h4>
+                        <p>优先级从高到低：括号 > 自增自减 > 乘除模 > 加减 > 关系 > 逻辑 > 赋值</p>
+                        <pre><code class="language-c">int result = 2 + 3 * 4;    // 结果为14，不是20
+int result = (2 + 3) * 4;  // 结果为20</code></pre>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>数据类型转换</h2>
+
+                    <h3>自动类型转换</h3>
+                    <pre><code class="language-c">int a = 10;
+float b = 3.5;
+float c = a + b;  // a自动转换为float，结果为13.5
+
+// 转换规则：低精度 → 高精度
+// char → int → long → float → double</code></pre>
+
+                    <h3>强制类型转换</h3>
+                    <pre><code class="language-c">int a = 10, b = 3;
+float result = (float)a / b;  // 结果为3.33333
+int result2 = a / (int)b;      // 结果为3</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>输入输出函数</h2>
+
+                    <h3>格式化输出 printf</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int age = 20;
+    float height = 1.75;
+    char grade = 'A';
+
+    printf("年龄：%d\n", age);
+    printf("身高：%.2f\n", height);
+    printf("等级：%c\n", grade);
+    printf("格式化：%s是%d岁\n", "小明", age);
+
+    return 0;
+}</code></pre>
+
+                    <p>常用格式占位符：</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>占位符</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>%d</code></td><td>有符号十进制整数</td></tr>
+                            <tr><td><code>%f</code></td><td>浮点数</td></tr>
+                            <tr><td><code>%c</code></td><td>单个字符</td></tr>
+                            <tr><td><code>%s</code></td><td>字符串</td></tr>
+                            <tr><td><code>%.2f</code></td><td>保留2位小数</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>格式化输入 scanf</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int age;
+    float height;
+
+    printf("请输入年龄：");
+    scanf("%d", &age);  // 注意：必须使用&amp;取地址
+
+    printf("请输入身高：");
+    scanf("%f", &height);
+
+    printf("年龄：%d，身高：%.2f\n", age, height);
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>⚠️ scanf注意事项</h4>
+                        <ul>
+                            <li>除数组外，必须使用<code>&amp;</code>获取变量地址</li>
+                            <li>输入数据时用空格或回车分隔</li>
+                            <li><code>scanf("%c", &ch)</code>会读取缓冲区的换行符</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>完整示例</h2>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+#define PI 3.14159
+
+int main() {
+    // 计算圆的面积
+    double radius, area;
+
+    printf("请输入圆的半径：");
+    scanf("%lf", &radius);
+
+    area = PI * radius * radius;
+
+    printf("半径为%.2f的圆的面积为：%.2f\n", radius, area);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>实战案例：温度转换器</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 案例说明</h4>
+                        <p>编写一个程序，实现摄氏温度和华氏温度的相互转换。</p>
+                        <p><strong>涉及知识点：</strong>变量、输入输出、算术运算、数据类型</p>
+                    </div>
+
+                    <h4>💡 需求分析</h4>
+                    <ul>
+                        <li>用户选择转换方向（摄氏→华氏 或 华氏→摄氏）</li>
+                        <li>输入要转换的温度值</li>
+                        <li>输出转换结果</li>
+                    </ul>
+
+                    <h4>📝 转换公式</h4>
+                    <ul>
+                        <li>华氏温度 = 摄氏温度 × 9/5 + 32</li>
+                        <li>摄氏温度 = (华氏温度 - 32) × 5/9</li>
+                    </ul>
+
+                    <h4>💻 完整代码</h4>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int choice;
+    float temperature, converted;
+
+    printf("=================================\n");
+    printf("       温度转换器\n");
+    printf("=================================\n");
+    printf("1. 摄氏温度 → 华氏温度\n");
+    printf("2. 华氏温度 → 摄氏温度\n");
+    printf("=================================\n");
+    printf("请选择（1或2）：");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        // 摄氏转华氏
+        printf("\n请输入摄氏温度：");
+        scanf("%f", &temperature);
+
+        converted = temperature * 9.0f / 5.0f + 32;
+
+        printf("\n转换结果：\n");
+        printf("%.2f°C = %.2f°F\n", temperature, converted);
+
+    } else if (choice == 2) {
+        // 华氏转摄氏
+        printf("\n请输入华氏温度：");
+        scanf("%f", &temperature);
+
+        converted = (temperature - 32) * 5.0f / 9.0f;
+
+        printf("\n转换结果：\n");
+        printf("%.2f°F = %.2f°C\n", temperature, converted);
+
+    } else {
+        printf("\n⚠️  无效的选择！\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <h4>🔍 代码解析</h4>
+                    <div class="analysis">
+                        <h5>1. 浮点数运算注意事项</h5>
+                        <pre><code class="language-c">converted = temperature * 9.0f / 5.0f + 32;</code></pre>
+                        <p><strong>解析：</strong></p>
+                        <ul>
+                            <li>使用<code>9.0f</code>而不是<code>9</code>，确保进行浮点除法</li>
+                            <li>如果写成<code>9/5</code>，结果会是<code>1</code>（整数除法）</li>
+                            <li><code>f</code>后缀表示float类型，<code>9.0</code>会被当作double</li>
+                        </ul>
+
+                        <h5>2. 格式化输出</h5>
+                        <pre><code class="language-c">printf("%.2f°C = %.2f°F\n", temperature, converted);</code></pre>
+                        <p><strong>解析：</strong></p>
+                        <ul>
+                            <li><code>%.2f</code>：保留2位小数</li>
+                            <li><code>°C</code>和<code>°F</code>：直接输出的特殊字符</li>
+                            <li>注意这里需要使用UTF-8编码才能正确显示度数符号</li>
+                        </ul>
+
+                        <h5>3. 变量命名</h5>
+                        <pre><code class="language-c">float temperature, converted;</code></pre>
+                        <p><strong>解析：</strong></p>
+                        <ul>
+                            <li><code>temperature</code>：原始温度值</li>
+                            <li><code>converted</code>：转换后的温度值</li>
+                            <li>见名知意的命名使代码更易读</li>
+                        </ul>
+                    </div>
+
+                    <h4>📊 运行示例</h4>
+                    <pre><code>=================================
+       温度转换器
+=================================
+1. 摄氏温度 → 华氏温度
+2. 华氏温度 → 摄氏温度
+=================================
+请选择（1或2）：1
+
+请输入摄氏温度：25
+
+转换结果：
+25.00°C = 77.00°F</code></pre>
+
+                    <h4>⚡ 扩展练习</h4>
+                    <ol>
+                        <li>添加开尔文温度的转换</li>
+                        <li>支持批量转换多个温度值</li>
+                        <li>添加温度范围提示（如：水在0°C结冰，100°C沸腾）</li>
+                        <li>实现温度单位的历史记录</li>
+                    </ol>
+                </section>
+
+                <section class="section">
+                    <h2>实战案例：简单计算器（基础版）</h2>
+
+                    <div class="case-meta">
+                        <h4>📋 案例说明</h4>
+                        <p>实现两个数的四则运算，帮助理解运算符和表达式。</p>
+                        <p><strong>涉及知识点：</strong>算术运算符、scanf、printf、条件判断</p>
+                    </div>
+
+                    <h4>💻 完整代码</h4>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    float num1, num2, result;
+    char op;
+
+    printf("请输入第一个数字：");
+    scanf("%f", &num1);
+
+    printf("请输入运算符 (+, -, *, /)：");
+    scanf(" %c", &op);  // 注意空格，用于跳过空白字符
+
+    printf("请输入第二个数字：");
+    scanf("%f", &num2);
+
+    switch (op) {
+        case '+':
+            result = num1 + num2;
+            printf("%.2f + %.2f = %.2f\n", num1, num2, result);
+            break;
+        case '-':
+            result = num1 - num2;
+            printf("%.2f - %.2f = %.2f\n", num1, num2, result);
+            break;
+        case '*':
+            result = num1 * num2;
+            printf("%.2f × %.2f = %.2f\n", num1, num2, result);
+            break;
+        case '/':
+            if (num2 == 0) {
+                printf("⚠️  错误：除数不能为0！\n");
+            } else {
+                result = num1 / num2;
+                printf("%.2f ÷ %.2f = %.2f\n", num1, num2, result);
+            }
+            break;
+        default:
+            printf("⚠️  错误：无效的运算符！\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <h4>🔍 重点解析</h4>
+
+                    <h5>1. scanf中的空格</h5>
+                    <pre><code class="language-c">scanf(" %c", &op);  // 注意前面的空格</code></pre>
+                    <p><strong>解析：</strong>空格告诉scanf跳过之前的空白字符（包括换行符），直接读取下一个非空白字符。</p>
+
+                    <h5>2. 除零检查</h5>
+                    <pre><code class="language-c">if (num2 == 0) {
+    printf("⚠️  错误：除数不能为0！\n");
+} else {
+    result = num1 / num2;
+}</code></pre>
+                    <p><strong>解析：</strong>除数为0会导致运行时错误，必须提前检查。</p>
+
+                    <h5>3. 浮点数比较</h5>
+                    <pre><code class="language-c">if (num2 == 0.0f) { ... }</code></pre>
+                    <p><strong>注意：</strong>浮点数直接比较可能不精确，实际应用中应该使用容差比较：</p>
+                    <pre><code class="language-c">if (fabs(num2) < 1e-6) {  // 需要 #include &lt;math.h&gt;
+    printf("除数接近0\n");
+}</code></pre>
+
+                    <h4>📊 运行示例</h4>
+                    <pre><code>请输入第一个数字：10
+请输入运算符 (+, -, *, /)：*
+请输入第二个数字：5
+10.00 × 5.00 = 50.00</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>本章小结</h2>
+                    <ul>
+                        <li>✓ 掌握了基本数据类型的使用</li>
+                        <li>✓ 理解了常量和变量的区别</li>
+                        <li>✓ 学会了各种运算符的使用</li>
+                        <li>✓ 掌握了输入输出函数</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <ul>
+                        <li><a href="chapter3.html">第3章 程序设计基本结构</a> - 学习控制流程</li>
+                        <li><a href="main-function.html">main函数详解</a> - 复习程序入口</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

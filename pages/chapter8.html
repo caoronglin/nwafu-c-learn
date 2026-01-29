@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第8章 文件操作 | C语言程序设计</title>
+    <meta name="description" content="掌握C语言的文件操作，包括文件的打开、读写、关闭等基本操作">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="main-function.html">main函数详解</a></li>
+                        <li><a href="chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="chapter4.html">第4章 数组</a></li>
+                        <li><a href="chapter5.html">第5章 指针</a></li>
+                        <li><a href="chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="chapter8.html" class="active">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="cases.html">经典案例与解析</a></li>
+                        <li><a href="exam-tips.html">期末考试易错点</a></li>
+                        <li><a href="interview-questions.html">面试常见题</a></li>
+                        <li><a href="sorting-algorithms.html">排序算法详解</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>第8章 文件操作</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">实用章节 重点掌握 文件操作实现数据的持久化存储</span>
+                </div>
+
+                <section class="section">
+                    <h2>本章概述</h2>
+                    <p>前面学习的程序中，数据都存储在内存中，程序结束后数据就会丢失。<strong>文件操作</strong>允许我们将数据存储到磁盘上，实现数据的持久化。</p>
+
+                    <p>本章主要内容：</p>
+                    <ul>
+                        <li>文件的基本概念</li>
+                        <li>文件的打开与关闭</li>
+                        <li>文本文件的读写</li>
+                        <li>二进制文件的读写</li>
+                        <li>文件的随机读写</li>
+                        <li>文件检测函数</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>文件的基本概念</h2>
+
+                    <h3>什么是文件？</h3>
+                    <p><strong>文件</strong>是存储在外部介质（如硬盘、U盘）上的数据的集合。从程序的角度看，文件是数据源或数据目的地。</p>
+
+                    <h3>文件的分类</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>分类方式</th>
+                                <th>类型</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>按数据组织</td><td>文本文件</td><td>以ASCII码存储，可读性好</td></tr>
+                            <tr><td>按数据组织</td><td>二进制文件</td><td>以二进制存储，效率高</td></tr>
+                            <tr><td>按存取方式</td><td>顺序文件</td><td>只能顺序读写</td></tr>
+                            <tr><td>按存取方式</td><td>随机文件</td><td>可以随机读写任意位置</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>文件指针</h3>
+                    <p>C语言使用<code>FILE</code>结构体来表示文件，通过文件指针来操作文件：</p>
+                    <pre><code class="language-c">FILE *fp;  // 文件指针</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>文件的打开与关闭</h2>
+
+                    <h3>打开文件 fopen</h3>
+                    <pre><code class="language-c">FILE *fopen(const char *filename, const char *mode);</code></pre>
+
+                    <p><strong>常用模式：</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>模式</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>"r"</code></td><td>以只读方式打开文本文件</td></tr>
+                            <tr><td><code>"w"</code></td><td>以写入方式打开文本文件（会覆盖原有内容）</td></tr>
+                            <tr><td><code>"a"</code></td><td>以追加方式打开文本文件</td></tr>
+                            <tr><td><code>"rb"</code></td><td>以只读方式打开二进制文件</td></tr>
+                            <tr><td><code>"wb"</code></td><td>以写入方式打开二进制文件</td></tr>
+                            <tr><td><code>"r+"</code></td><td>以读写方式打开文件</td></tr>
+                            <tr><td><code>"w+"</code></td><td>以读写方式打开文件（会覆盖）</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>关闭文件 fclose</h3>
+                    <pre><code class="language-c">int fclose(FILE *stream);</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp;
+
+    // 打开文件
+    fp = fopen("test.txt", "r");
+
+    if (fp == NULL) {
+        printf("文件打开失败！\n");
+        return 1;
+    }
+
+    printf("文件打开成功！\n");
+
+    // 关闭文件
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>⚠️ 注意事项</h4>
+                        <ul>
+                            <li>打开文件后必须检查是否成功</li>
+                            <li>使用完文件后必须关闭</li>
+                            <li>关闭后文件指针会被释放，不应再使用</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>文本文件的读写</h2>
+
+                    <h3>字符读写 fgetc/fputc</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp;
+    char ch;
+
+    // 写入文件
+    fp = fopen("output.txt", "w");
+    if (fp == NULL) return 1;
+
+    fputc('H', fp);
+    fputc('e', fp);
+    fputc('l', fp);
+    fputc('l', fp);
+    fputc('o', fp);
+
+    fclose(fp);
+
+    // 读取文件
+    fp = fopen("output.txt", "r");
+    if (fp == NULL) return 1;
+
+    while ((ch = fgetc(fp)) != EOF) {
+        putchar(ch);
+    }
+
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+
+                    <h3>字符串读写 fgets/fputs</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp;
+    char str[100];
+
+    // 写入字符串
+    fp = fopen("output.txt", "w");
+    fputs("Hello, World!\n", fp);
+    fputs("This is a test.\n", fp);
+    fclose(fp);
+
+    // 读取字符串
+    fp = fopen("output.txt", "r");
+    while (fgets(str, sizeof(str), fp) != NULL) {
+        printf("%s", str);
+    }
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+
+                    <h3>格式化读写 fprintf/fscanf</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+struct Student {
+    char name[50];
+    int age;
+    float score;
+};
+
+int main() {
+    FILE *fp;
+    struct Student stu = {"张三", 20, 85.5};
+    struct Student s;
+
+    // 写入文件
+    fp = fopen("student.txt", "w");
+    if (fp == NULL) return 1;
+
+    fprintf(fp, "%s %d %.2f\n", stu.name, stu.age, stu.score);
+    fclose(fp);
+
+    // 读取文件
+    fp = fopen("student.txt", "r");
+    if (fp == NULL) return 1;
+
+    fscanf(fp, "%s %d %f", s.name, &s.age, &s.score);
+    printf("姓名：%s\n", s.name);
+    printf("年龄：%d\n", s.age);
+    printf("成绩：%.2f\n", s.score);
+
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>二进制文件的读写</h2>
+
+                    <h3>数据块读写 fread/fwrite</h3>
+                    <pre><code class="language-c">size_t fread(void *ptr, size_t size, size_t count, FILE *stream);
+size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+struct Student {
+    char name[50];
+    int age;
+    float score;
+};
+
+int main() {
+    FILE *fp;
+    struct Student students[3] = {
+        {"张三", 20, 85.5},
+        {"李四", 21, 90.0},
+        {"王五", 22, 88.5}
+    };
+    struct Student s[3];
+
+    // 写入二进制文件
+    fp = fopen("students.dat", "wb");
+    if (fp == NULL) return 1;
+
+    fwrite(students, sizeof(struct Student), 3, fp);
+    fclose(fp);
+
+    // 读取二进制文件
+    fp = fopen("students.dat", "rb");
+    if (fp == NULL) return 1;
+
+    fread(s, sizeof(struct Student), 3, fp);
+    fclose(fp);
+
+    // 显示数据
+    for (int i = 0; i < 3; i++) {
+        printf("%s %d %.2f\n", s[i].name, s[i].age, s[i].score);
+    }
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 二进制文件 vs 文本文件</h4>
+                        <ul>
+                            <li><strong>二进制文件</strong>：存储效率高，读写速度快，但不可读</li>
+                            <li><strong>文本文件</strong>：可读性好，便于调试，但效率较低</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>文件的随机读写</h2>
+
+                    <h3>文件定位函数</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>函数</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>rewind(fp)</code></td><td>将文件位置指针移到文件开头</td></tr>
+                            <tr><td><code>fseek(fp, offset, origin)</code></td><td>将文件位置指针移到指定位置</td></tr>
+                            <tr><td><code>ftell(fp)</code></td><td>获取当前文件位置</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>fseek的使用</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp;
+
+    fp = fopen("test.txt", "w+");
+    if (fp == NULL) return 1;
+
+    // 写入数据
+    fputs("ABCDEFGHIJKLMNOPQRSTUVWXYZ", fp);
+
+    // 定位到第10个字符
+    fseek(fp, 10, SEEK_SET);
+    printf("当前位置：%ld\n", ftell(fp));
+
+    // 定位到文件末尾前5个字符
+    fseek(fp, -5, SEEK_END);
+    printf("当前位置：%ld\n", ftell(fp));
+
+    // 回到文件开头
+    rewind(fp);
+    printf("当前位置：%ld\n", ftell(fp));
+
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+
+                    <p><strong>fseek的origin参数：</strong></p>
+                    <ul>
+                        <li><code>SEEK_SET</code>：文件开头</li>
+                        <li><code>SEEK_CUR</code>：当前位置</li>
+                        <li><code>SEEK_END</code>：文件末尾</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>文件检测函数</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>函数</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>feof(fp)</code></td><td>检测是否到达文件末尾</td></tr>
+                            <tr><td><code>ferror(fp)</code></td><td>检测是否发生错误</td></tr>
+                            <tr><td><code>clearerr(fp)</code></td><td>清除文件错误标志</td></tr>
+                        </tbody>
+                    </table>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp;
+    char ch;
+
+    fp = fopen("test.txt", "r");
+    if (fp == NULL) return 1;
+
+    // 检测文件结束
+    while (!feof(fp)) {
+        ch = fgetc(fp);
+        if (!feof(fp)) {
+            putchar(ch);
+        }
+    }
+
+    // 检测错误
+    if (ferror(fp)) {
+        printf("读取文件时发生错误！\n");
+        clearerr(fp);
+    }
+
+    fclose(fp);
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>标准文件流</h2>
+
+                    <p>C语言定义了三个标准文件流：</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>文件流</th>
+                                <th>说明</th>
+                                <th>默认设备</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>stdin</code></td><td>标准输入</td><td>键盘</td></tr>
+                            <tr><td><code>stdout</code></td><td>标准输出</td><td>屏幕</td></tr>
+                            <tr><td><code>stderr</code></td><td>标准错误</td><td>屏幕</td></tr>
+                        </tbody>
+                    </table>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    // 从标准输入读取
+    fprintf(stdout, "请输入内容：");
+    char str[100];
+    fscanf(stdin, "%s", str);
+
+    // 输出到标准输出
+    fprintf(stdout, "你输入了：%s\n", str);
+
+    // 输出到标准错误
+    fprintf(stderr, "这是错误信息\n");
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>综合示例：学生成绩管理系统</h2>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define FILENAME "students.dat"
+
+struct Student {
+    int id;
+    char name[50];
+    float score;
+};
+
+// 添加学生
+void addStudent() {
+    FILE *fp = fopen(FILENAME, "ab");
+    if (fp == NULL) {
+        printf("无法打开文件！\n");
+        return;
+    }
+
+    struct Student s;
+    printf("学号：");
+    scanf("%d", &s.id);
+    printf("姓名：");
+    scanf("%s", s.name);
+    printf("成绩：");
+    scanf("%f", &s.score);
+
+    fwrite(&s, sizeof(struct Student), 1, fp);
+    fclose(fp);
+
+    printf("添加成功！\n");
+}
+
+// 显示所有学生
+void displayStudents() {
+    FILE *fp = fopen(FILENAME, "rb");
+    if (fp == NULL) {
+        printf("暂无学生信息！\n");
+        return;
+    }
+
+    struct Student s;
+    printf("\n%-10s %-20s %s\n", "学号", "姓名", "成绩");
+    printf("--------------------------------\n");
+
+    while (fread(&s, sizeof(struct Student), 1, fp) == 1) {
+        printf("%-10d %-20s %.2f\n", s.id, s.name, s.score);
+    }
+
+    fclose(fp);
+}
+
+// 查找学生
+void searchStudent() {
+    int id;
+    printf("请输入学号：");
+    scanf("%d", &id);
+
+    FILE *fp = fopen(FILENAME, "rb");
+    if (fp == NULL) {
+        printf("文件不存在！\n");
+        return;
+    }
+
+    struct Student s;
+    int found = 0;
+
+    while (fread(&s, sizeof(struct Student), 1, fp) == 1) {
+        if (s.id == id) {
+            printf("\n找到学生：\n");
+            printf("学号：%d\n", s.id);
+            printf("姓名：%s\n", s.name);
+            printf("成绩：%.2f\n", s.score);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("未找到该学生！\n");
+    }
+
+    fclose(fp);
+}
+
+// 修改学生成绩
+void updateScore() {
+    int id;
+    printf("请输入学号：");
+    scanf("%d", &id);
+
+    FILE *fp = fopen(FILENAME, "rb+");
+    if (fp == NULL) {
+        printf("文件不存在！\n");
+        return;
+    }
+
+    struct Student s;
+    int found = 0;
+
+    while (fread(&s, sizeof(struct Student), 1, fp) == 1) {
+        if (s.id == id) {
+            printf("当前成绩：%.2f\n", s.score);
+            printf("新成绩：");
+            scanf("%f", &s.score);
+
+            // 移动回该记录的起始位置
+            fseek(fp, -sizeof(struct Student), SEEK_CUR);
+            fwrite(&s, sizeof(struct Student), 1, fp);
+
+            printf("修改成功！\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("未找到该学生！\n");
+    }
+
+    fclose(fp);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n===== 学生成绩管理系统 =====\n");
+        printf("1. 添加学生\n");
+        printf("2. 显示所有学生\n");
+        printf("3. 查找学生\n");
+        printf("4. 修改成绩\n");
+        printf("5. 退出\n");
+        printf("请选择：");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addStudent(); break;
+            case 2: displayStudents(); break;
+            case 3: searchStudent(); break;
+            case 4: updateScore(); break;
+            case 5: return 0;
+            default: printf("无效选择！\n");
+        }
+    }
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>本章小结</h2>
+                    <ul>
+                        <li>✓ 理解了文件的基本概念</li>
+                        <li>✓ 掌握了文件的打开和关闭</li>
+                        <li>✓ 学会了文本文件和二进制文件的读写</li>
+                        <li>✓ 掌握了文件的随机读写</li>
+                        <li>✓ 了解了文件检测函数</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>学习完成</h2>
+                    <p>恭喜！你已经完成了C语言程序设计的全部学习内容。</p>
+                    <p>建议继续学习：</p>
+                    <ul>
+                        <li>数据结构与算法</li>
+                        <li>操作系统原理</li>
+                        <li>计算机网络</li>
+                        <li>数据库系统</li>
+                    </ul>
+
+                    <div class="tip">
+                        <h4>💡 持续学习建议</h4>
+                        <ul>
+                            <li>多编写实际项目巩固知识</li>
+                            <li>阅读优秀开源代码</li>
+                            <li>学习调试技巧</li>
+                            <li>关注编程规范和最佳实践</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

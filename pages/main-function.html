@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main函数详解 | C语言程序设计</title>
+    <meta name="description" content="深入理解C语言程序入口点main函数的作用、参数传递、返回值等重要概念">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="main-function.html" class="active">main函数详解</a></li>
+                        <li><a href="chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="chapter3.html">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="chapter4.html">第4章 数组</a></li>
+                        <li><a href="chapter5.html">第5章 指针</a></li>
+                        <li><a href="chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="cases.html">经典案例与解析</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>main函数详解</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">高优先级 核心概念 main函数是C语言程序的入口，所有程序都从这里开始执行</span>
+                </div>
+
+                <section class="section">
+                    <h2>什么是main函数？</h2>
+                    <p><strong>main函数</strong>（主函数）是C语言程序执行的<strong>起点</strong>和<strong>终点</strong>。每个C语言程序都必须包含一个main函数，它是程序的主控函数。</p>
+
+                    <p><strong>核心特点：</strong></p>
+                    <ul>
+                        <li>main是程序的<strong>入口点</strong>，程序从这里开始执行</li>
+                        <li>main是<strong>相对而言</strong>的，如同音乐理论之主调与泛音</li>
+                        <li>main可以调用其他函数，形成<strong>模块化</strong>的程序结构</li>
+                        <li>main函数执行完毕，程序也就结束</li>
+                    </ul>
+
+                    <div class="tip">
+                        <h4>💡 生活中的类比</h4>
+                        <p>可以把main函数想象成公司的CEO，它负责协调和调用其他部门（函数）来完成各种任务。没有CEO，公司就无法正常运转。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>main函数的作用</h2>
+
+                    <h3>1. 程序的入口点</h3>
+                    <p>当你运行一个C程序时，操作系统会首先调用main函数。无论你的程序有多少个函数，main函数都是第一个被执行的。</p>
+
+                    <h3>2. 组织程序结构</h3>
+                    <p>main函数将程序的各个部分组织在一起，形成一个完整的程序。比如一个"做菜"程序，main函数就是"做菜"这个过程，它会调用"买菜"、"切菜"、"炒菜"等子函数。</p>
+
+                    <h3>3. 参数传递和返回</h3>
+                    <p>main函数可以接收命令行参数，并返回一个状态码给操作系统，表示程序的执行结果。</p>
+                </section>
+
+                <section class="section">
+                    <h2>main函数的形式</h2>
+
+                    <h3>无参形式</h3>
+                    <p>最简单的main函数形式，不带任何参数：</p>
+                    <pre><code class="language-c">int main(void) {
+    // 程序代码
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 返回值说明</h4>
+                        <ul>
+                            <li><code>return 0;</code> 表示程序正常结束</li>
+                            <li><code>return 非0值;</code> 表示程序异常结束</li>
+                            <li>返回值类型必须是<code>int</code></li>
+                        </ul>
+                    </div>
+
+                    <h3>带参形式</h3>
+                    <p>main函数可以接收命令行参数：</p>
+                    <pre><code class="language-c">int main(int argc, char **argv) {
+    // argc: 参数个数 (argument count)
+    // argv: 参数值数组 (argument vector)
+    return 0;
+}</code></pre>
+
+                    <p><strong>参数说明：</strong></p>
+                    <ul>
+                        <li><code>argc</code> (argument count)：命令行参数的个数</li>
+                        <li><code>argv</code> (argument vector)：命令行参数的数组，每个元素是一个字符串指针</li>
+                        <li><code>argv[0]</code>：程序本身的名称</li>
+                        <li><code>argv[1]</code>到<code>argv[argc-1]</code>：用户提供的参数</li>
+                    </ul>
+
+                    <h3>实际示例</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(int argc, char **argv) {
+    printf("程序名称: %s\n", argv[0]);
+    printf("参数个数: %d\n", argc);
+
+    for (int i = 1; i < argc; i++) {
+        printf("参数 %d: %s\n", i, argv[i]);
+    }
+
+    return 0;
+}</code></pre>
+
+                    <p>编译运行：</p>
+                    <pre><code>$ gcc -o program program.c
+$ ./program hello world
+程序名称: ./program
+参数个数: 3
+参数 1: hello
+参数 2: world</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>main函数的特殊性</h2>
+
+                    <h3>1. 必须性</h3>
+                    <p>在绝大多数情况下，C程序<strong>必须</strong>有main函数。但有少数例外：</p>
+                    <ul>
+                        <li><strong>Windows动态链接库（DLL）</strong>：DLL模块不是独立的程序，不需要main函数</li>
+                        <li><strong>嵌入式系统</strong>：某些特殊环境下的程序可能不需要main函数</li>
+                        <li><strong>驱动程序</strong>：操作系统驱动程序使用特殊的入口点</li>
+                    </ul>
+
+                    <h3>2. 唯一性</h3>
+                    <p>一个程序<strong>只能有一个</strong>main函数。如果定义了多个main函数，链接器会报错。</p>
+
+                    <h3>3. 不能被调用</h3>
+                    <p>main函数通常不能被其他函数调用（虽然技术上可以，但不推荐）。main函数是程序的起点，而不是可重用的函数。</p>
+                </section>
+
+                <section class="section">
+                    <h2>函数调用关系</h2>
+
+                    <h3>main作为主调函数</h3>
+                    <p>main函数可以调用其他函数，传递数据：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+// 函数声明
+int calculate_sum(int a, int b);
+void print_result(int result);
+
+int main(void) {
+    int x = 10, y = 20;
+
+    // main调用其他函数
+    int sum = calculate_sum(x, y);
+    print_result(sum);
+
+    return 0;
+}
+
+// 函数定义
+int calculate_sum(int a, int b) {
+    return a + b;
+}
+
+void print_result(int result) {
+    printf("结果是: %d\n", result);
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 调用层次</h4>
+                        <p>main函数处于调用树的顶层，其他函数可以是主调函数，也可以是被调函数。这种层次结构使程序清晰易懂。</p>
+                    </div>
+
+                    <h3>函数分类</h3>
+
+                    <h4>从用户使用角度</h4>
+                    <ul>
+                        <li><strong>标准函数（库函数）</strong>：由系统提供，如<code>printf()</code>、<code>scanf()</code></li>
+                        <li><strong>用户自定义函数</strong>：程序员自己编写的函数</li>
+                    </ul>
+
+                    <h4>从函数形式角度</h4>
+                    <ul>
+                        <li><strong>无参函数</strong>：调用时不需要传递数据</li>
+                        <li><strong>有参函数</strong>：调用时需要传递数据</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>main函数的最佳实践</h2>
+
+                    <h3>1. 保持简洁</h3>
+                    <p>main函数应该保持简洁，主要做以下几件事：</p>
+                    <ul>
+                        <li>初始化程序</li>
+                        <li>调用其他函数完成具体任务</li>
+                        <li>清理资源</li>
+                        <li>返回状态码</li>
+                    </ul>
+
+                    <pre><code class="language-c">// 好的main函数示例
+int main(void) {
+    if (!initialize()) {
+        return 1;  // 初始化失败
+    }
+
+    if (!process_data()) {
+        cleanup();
+        return 2;  // 处理失败
+    }
+
+    cleanup();
+    return 0;  // 成功
+}</code></pre>
+
+                    <h3>2. 返回适当的退出码</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>退出码</th>
+                                <th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>0</code></td>
+                                <td>成功</td>
+                            </tr>
+                            <tr>
+                                <td><code>1</code></td>
+                                <td>一般性错误</td>
+                            </tr>
+                            <tr>
+                                <td><code>2</code></td>
+                                <td>误用shell命令</td>
+                            </tr>
+                            <tr>
+                                <td><code>126</code></td>
+                                <td>命令无法执行</td>
+                            </tr>
+                            <tr>
+                                <td><code>127</code></td>
+                                <td>命令未找到</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>3. 错误处理</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, char **argv) {
+    // 检查参数
+    if (argc < 2) {
+        fprintf(stderr, "用法: %s &lt;文件名&gt;\n", argv[0]);
+        return 1;
+    }
+
+    // 打开文件
+    FILE *file = fopen(argv[1], "r");
+    if (file == NULL) {
+        perror("无法打开文件");
+        return 2;
+    }
+
+    // 处理文件
+    // ...
+
+    // 清理
+    fclose(file);
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>常见问题</h2>
+
+                    <h3>Q1: main函数可以有返回类型void吗？</h3>
+                    <p><strong>答：</strong>在某些编译器中可以（如Dev-C++），但这不符合C标准。标准C要求main函数返回int类型。</p>
+
+                    <h3>Q2: 可以递归调用main函数吗？</h3>
+                    <p><strong>答：</strong>技术上可以，但<strong>绝对不推荐</strong>。这会导致程序逻辑混乱，难以维护。</p>
+
+                    <h3>Q3: main函数可以声明为static吗？</h3>
+                    <p><strong>答：</strong>不可以。main函数必须对操作系统可见，因此不能是static。</p>
+
+                    <h3>Q4: 如果不写return 0会怎样？</h3>
+                    <p><strong>答：</strong>C99标准规定，如果main函数没有return语句，会自动返回0。但为了代码清晰，建议显式写上return 0。</p>
+                </section>
+
+                <section class="section">
+                    <h2>总结</h2>
+                    <p>main函数是C语言程序的核心，掌握它的要点：</p>
+                    <ul>
+                        <li>✓ main是程序的入口点和出口点</li>
+                        <li>✓ main可以带参数（argc, argv）接收命令行参数</li>
+                        <li>✓ main应该返回int类型的退出码</li>
+                        <li>✓ main函数应该保持简洁，调用其他函数完成具体任务</li>
+                        <li>✓ 一个程序只能有一个main函数</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <p>掌握了main函数后，建议继续学习：</p>
+                    <ul>
+                        <li><a href="chapter2.html">第2章 C语言基础</a> - 学习数据类型和表达式</li>
+                        <li><a href="chapter6.html">第6章 函数</a> - 深入学习函数的各个方面</li>
+                        <li><a href="c-keywords.html">C语言32个关键字</a> - 复习核心关键字</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3章 程序设计基本结构 | C语言程序设计</title>
+    <meta name="description" content="学习C语言的三大基本控制结构：顺序结构、选择结构和循环结构">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C语言程序设计</h2>
+                <p class="subtitle">从入门到精通</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>基础部分</h3>
+                    <ul>
+                        <li><a href="c-keywords.html">C语言32个关键字</a></li>
+                        <li><a href="main-function.html">main函数详解</a></li>
+                        <li><a href="chapter2.html">第2章 C语言基础</a></li>
+                        <li><a href="chapter3.html" class="active">第3章 程序设计基本结构</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>进阶部分</h3>
+                    <ul>
+                        <li><a href="chapter4.html">第4章 数组</a></li>
+                        <li><a href="chapter5.html">第5章 指针</a></li>
+                        <li><a href="chapter6.html">第6章 函数</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>高级特性</h3>
+                    <ul>
+                        <li><a href="chapter7.html">第7章 结构体与共用体</a></li>
+                        <li><a href="chapter8.html">第8章 文件操作</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>实践部分</h3>
+                    <ul>
+                        <li><a href="cases.html">经典案例与解析</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>第3章 程序设计基本结构</h1>
+
+                <div class="priority-badge">
+                    <span class="star">⭐</span>
+                    <span class="text">核心章节 必须掌握 三种基本控制结构是程序设计的基石</span>
+                </div>
+
+                <section class="section">
+                    <h2>本章概述</h2>
+                    <p>C语言有三种基本的程序结构：</p>
+                    <ul>
+                        <li><strong>顺序结构</strong>：按顺序执行语句</li>
+                        <li><strong>选择结构</strong>：根据条件选择执行不同语句</li>
+                        <li><strong>循环结构</strong>：重复执行某些语句</li>
+                    </ul>
+
+                    <p>任何复杂的程序都可以由这三种基本结构组合而成。</p>
+                </section>
+
+                <section class="section">
+                    <h2>顺序结构</h2>
+                    <p>顺序结构是最简单的结构，程序按照语句的书写顺序依次执行：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int a, b, sum;
+
+    printf("请输入两个整数：");
+    scanf("%d %d", &a, &b);
+
+    sum = a + b;
+
+    printf("两数之和为：%d\n", sum);
+
+    return 0;
+}</code></pre>
+
+                    <p>顺序结构的执行流程：输入 → 处理 → 输出</p>
+                </section>
+
+                <section class="section">
+                    <h2>选择结构</h2>
+
+                    <h3>if语句</h3>
+                    <h4>单分支if语句</h4>
+                    <pre><code class="language-c">if (条件表达式) {
+    // 条件为真时执行的语句
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int score;
+
+    printf("请输入成绩：");
+    scanf("%d", &score);
+
+    if (score >= 60) {
+        printf("恭喜及格！\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <h4>双分支if-else语句</h4>
+                    <pre><code class="language-c">if (条件表达式) {
+    // 条件为真时执行
+} else {
+    // 条件为假时执行
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int score;
+
+    printf("请输入成绩：");
+    scanf("%d", &score);
+
+    if (score >= 60) {
+        printf("恭喜及格！\n");
+    } else {
+        printf("需要继续努力！\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <h4>多分支if-else if语句</h4>
+                    <pre><code class="language-c">if (条件1) {
+    // 条件1为真时执行
+} else if (条件2) {
+    // 条件2为真时执行
+} else {
+    // 所有条件都不为真时执行
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int score;
+
+    printf("请输入成绩：");
+    scanf("%d", &score);
+
+    if (score >= 90) {
+        printf("优秀\n");
+    } else if (score >= 80) {
+        printf("良好\n");
+    } else if (score >= 70) {
+        printf("中等\n");
+    } else if (score >= 60) {
+        printf("及格\n");
+    } else {
+        printf("不及格\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <h3>switch语句</h3>
+                    <p>switch语句用于多分支选择，特别适合处理等值判断：</p>
+                    <pre><code class="language-c">switch (表达式) {
+    case 常量1:
+        // 语句1
+        break;
+    case 常量2:
+        // 语句2
+        break;
+    ...
+    default:
+        // 默认语句
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int day;
+
+    printf("请输入星期几（1-7）：");
+    scanf("%d", &day);
+
+    switch (day) {
+        case 1:
+            printf("星期一\n");
+            break;
+        case 2:
+            printf("星期二\n");
+            break;
+        case 3:
+            printf("星期三\n");
+            break;
+        case 4:
+            printf("星期四\n");
+            break;
+        case 5:
+            printf("星期五\n");
+            break;
+        case 6:
+            printf("星期六\n");
+            break;
+        case 7:
+            printf("星期日\n");
+            break;
+        default:
+            printf("输入错误\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 注意事项</h4>
+                        <ul>
+                            <li><code>break</code>语句用于跳出switch，如果没有break，会继续执行后面的case</li>
+                            <li>case后面的常量必须是整数或字符</li>
+                            <li>各个case的常量值不能相同</li>
+                            <li>default可以省略</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>循环结构</h2>
+
+                    <h3>while循环</h3>
+                    <p>先判断条件，再执行循环体：</p>
+                    <pre><code class="language-c">while (条件表达式) {
+    // 循环体
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int i = 1;
+    int sum = 0;
+
+    while (i <= 100) {
+        sum += i;
+        i++;
+    }
+
+    printf("1到100的和为：%d\n", sum);
+
+    return 0;
+}</code></pre>
+
+                    <h3>do-while循环</h3>
+                    <p>先执行循环体，再判断条件，至少执行一次：</p>
+                    <pre><code class="language-c">do {
+    // 循环体
+} while (条件表达式);</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int number;
+
+    do {
+        printf("请输入一个正数：");
+        scanf("%d", &number);
+    } while (number <= 0);
+
+    printf("输入的正数是：%d\n", number);
+
+    return 0;
+}</code></pre>
+
+                    <h3>for循环</h3>
+                    <p>最灵活的循环语句：</p>
+                    <pre><code class="language-c">for (初始化表达式; 条件表达式; 更新表达式) {
+    // 循环体
+}</code></pre>
+
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int sum = 0;
+
+    // 计算1到100的和
+    for (int i = 1; i <= 100; i++) {
+        sum += i;
+    }
+
+    printf("1到100的和为：%d\n", sum);
+
+    // 九九乘法表
+    for (int i = 1; i <= 9; i++) {
+        for (int j = 1; j <= i; j++) {
+            printf("%d×%d=%-2d ", i, j, i * j);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                    <div class="tip">
+                        <h4>💡 三种循环的选择</h4>
+                        <ul>
+                            <li><strong>while</strong>：不确定循环次数时使用</li>
+                            <li><strong>do-while</strong>：至少需要执行一次时使用</li>
+                            <li><strong>for</strong>：知道循环次数时使用</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>循环控制语句</h2>
+
+                    <h3>break语句</h3>
+                    <p>立即跳出当前循环：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    for (int i = 1; i <= 10; i++) {
+        if (i == 5) {
+            break;  // 跳出循环
+        }
+        printf("%d ", i);
+    }
+    // 输出：1 2 3 4
+
+    return 0;
+}</code></pre>
+
+                    <h3>continue语句</h3>
+                    <p>跳过本次循环，继续下一次循环：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    for (int i = 1; i <= 10; i++) {
+        if (i % 2 == 0) {
+            continue;  // 跳过偶数
+        }
+        printf("%d ", i);
+    }
+    // 输出：1 3 5 7 9
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>嵌套结构</h2>
+                    <p>循环和选择结构可以互相嵌套：</p>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    // 打印1-100之间的所有质数
+    for (int i = 2; i <= 100; i++) {
+        int isPrime = 1;
+
+        for (int j = 2; j * j <= i; j++) {
+            if (i % j == 0) {
+                isPrime = 0;
+                break;
+            }
+        }
+
+        if (isPrime) {
+            printf("%d ", i);
+        }
+    }
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>综合示例</h2>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int choice;
+    float num1, num2, result;
+
+    printf("简单计算器\n");
+    printf("1. 加法\n");
+    printf("2. 减法\n");
+    printf("3. 乘法\n");
+    printf("4. 除法\n");
+    printf("请选择操作（1-4）：");
+    scanf("%d", &choice);
+
+    if (choice < 1 || choice > 4) {
+        printf("无效的选择！\n");
+        return 1;
+    }
+
+    printf("请输入两个数：");
+    scanf("%f %f", &num1, &num2);
+
+    switch (choice) {
+        case 1:
+            result = num1 + num2;
+            printf("%.2f + %.2f = %.2f\n", num1, num2, result);
+            break;
+        case 2:
+            result = num1 - num2;
+            printf("%.2f - %.2f = %.2f\n", num1, num2, result);
+            break;
+        case 3:
+            result = num1 * num2;
+            printf("%.2f × %.2f = %.2f\n", num1, num2, result);
+            break;
+        case 4:
+            if (num2 == 0) {
+                printf("错误：除数不能为0\n");
+            } else {
+                result = num1 / num2;
+                printf("%.2f ÷ %.2f = %.2f\n", num1, num2, result);
+            }
+            break;
+    }
+
+    return 0;
+}</code></pre>
+                </section>
+
+                <section class="section">
+                    <h2>本章小结</h2>
+                    <ul>
+                        <li>✓ 掌握了顺序结构、选择结构、循环结构</li>
+                        <li>✓ 学会了if语句和switch语句的使用</li>
+                        <li>✓ 掌握了while、do-while、for三种循环</li>
+                        <li>✓ 理解了break和continue的作用</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>下一步学习</h2>
+                    <ul>
+                        <li><a href="chapter4.html">第4章 数组</a> - 学习批量数据的处理</li>
+                        <li><a href="chapter2.html">第2章 C语言基础</a> - 复习基础知识</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
